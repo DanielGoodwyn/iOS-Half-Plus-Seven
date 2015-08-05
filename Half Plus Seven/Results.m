@@ -35,7 +35,7 @@
     double yourUpperRange = (self.yourself.age-7)*2;
     double theirLowerRange = (self.themself.age/2)+7;
     double theirUpperRange = (self.themself.age-7)*2;
-    self.us.text = [NSString stringWithFormat:@"%@, %.02f years old\n%.02f - %.02f\n\n%@, %.02f years old\n%.02f - %.02f\n\n",[self.yourself name],[self.yourself age],yourLowerRange,yourUpperRange,[self.themself name],[self.themself age],theirLowerRange,theirUpperRange];
+    self.us.text = [NSString stringWithFormat:@"%@, %.02f years old\nrange: %.02f - %.02f\n\n%@, %.02f years old\nrange: %.02f - %.02f\n\n",[self.yourself name],[self.yourself age],yourLowerRange,yourUpperRange,[self.themself name],[self.themself age],theirLowerRange,theirUpperRange];
     if (self.yourself.age < 14 || self.themself.age < 14) {
         self.us.text = [NSString stringWithFormat: @"Nobody under 14 please..."];
     } else if (self.yourself.age > self.themself.age) {

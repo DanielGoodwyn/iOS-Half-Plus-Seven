@@ -18,13 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPq-MY-KLo">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPq-MY-KLo">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="barTintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="0.75" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
-                                    <navigationItem title="Half Plus Seven" id="for-5b-b4U">
+                                    <navigationItem title="½ + 7" id="for-5b-b4U">
                                         <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="d41-Pg-pE1">
                                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -115,7 +118,7 @@
                                     <!--2014-12-06 08:33:54 +0000-->
                                 </date>
                             </datePicker>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11P-PP-ha4">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11P-PP-ha4">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
@@ -126,7 +129,7 @@
                                 <items>
                                     <navigationItem title="New Person" id="IXY-sG-X77">
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="gRa-mG-0c4">
-                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="4YX-MC-ktw"/>
                                             </connections>
@@ -173,14 +176,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vgl-az-PRL">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgl-az-PRL">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Half Plus Seven" id="I8S-zS-LUW">
+                                    <navigationItem title="½ + 7" id="I8S-zS-LUW">
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="VYV-SB-E3A">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -260,20 +263,20 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="0.38823529411764707" green="0.56470588235294117" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Half Plus Seven" id="w2U-so-tHi">
+                                    <navigationItem title="½ + 7" id="w2U-so-tHi">
                                         <barButtonItem key="leftBarButtonItem" title="👤" style="plain" id="S8G-gX-Sr4">
-                                            <color key="tintColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <segue destination="vXZ-lx-hvc" kind="modal" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
-                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <segue destination="R5k-mz-DWD" kind="modal" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
                                             </connections>
@@ -330,12 +333,13 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.38823529411764707" green="0.56470588235294117" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="UJ0-6H-onv" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="19w-xT-AW7"/>
                             <constraint firstAttribute="centerY" secondItem="JkE-8l-eri" secondAttribute="centerY" id="51f-Zl-4NR"/>
                             <constraint firstItem="UJ0-6H-onv" firstAttribute="top" secondItem="GzK-dO-7is" secondAttribute="bottom" id="HIS-Xp-SA8"/>
+                            <constraint firstItem="Fv9-eF-Wj3" firstAttribute="top" secondItem="KrY-it-bu2" secondAttribute="bottom" id="OPL-nP-XlX"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="gEh-td-u9e"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="iBQ-KS-ocV"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="top" secondItem="UJ0-6H-onv" secondAttribute="bottom" id="iXR-HB-wWD"/>
@@ -377,7 +381,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zt8-TX-QbK">
-                                        <rect key="frame" x="50" y="200" width="100" height="50"/>
+                                        <rect key="frame" x="40" y="220" width="100" height="40"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                         <state key="normal" title="Sign up">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -389,12 +393,18 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYk-lV-yEF">
-                                        <rect key="frame" x="150" y="200" width="100" height="50"/>
+                                        <rect key="frame" x="160" y="220" width="100" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                         <state key="normal" title="Log in">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="12"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="logIn:" destination="Z79-Ls-pfT" eventType="touchUpInside" id="0YA-y3-pA7"/>
                                             <action selector="update:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mHX-Qa-yW5"/>
@@ -469,7 +479,7 @@
                                     <!--1988-11-18 20:00:00 +0000-->
                                 </date>
                             </datePicker>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yhN-wk-XHi">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhN-wk-XHi">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="barTintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -478,13 +488,13 @@
                                 <items>
                                     <navigationItem title="Edit Profile" id="4n6-fx-BW5">
                                         <barButtonItem key="leftBarButtonItem" title="Log out" style="plain" id="JY2-iI-IQl">
-                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="logOut:" destination="vXZ-lx-hvc" id="Krm-QW-LwZ"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="JI8-Lk-a4y">
-                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="Lz9-iO-sCH"/>
                                             </connections>
@@ -541,8 +551,8 @@
         <image name="Star" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hpp-Nh-65m"/>
-        <segue reference="zQK-l9-X2R"/>
+        <segue reference="B42-yx-HKD"/>
+        <segue reference="Int-IJ-iic"/>
         <segue reference="or8-BC-UMN"/>
     </inferredMetricsTieBreakers>
 </document>

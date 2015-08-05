@@ -23,7 +23,7 @@
     PFUser *user = [PFUser currentUser];
     if (user) {
         PFQuery *themselfArrayQuery = [PFQuery queryWithClassName:@"Person"];
-        [themselfArrayQuery orderByDescending:@"name"];
+        [themselfArrayQuery orderByAscending:@"name"];
         [themselfArrayQuery whereKey:@"user" equalTo:user];
         [themselfArrayQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error) {
