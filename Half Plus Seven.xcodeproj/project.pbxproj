@@ -17,6 +17,7 @@
 		7E8EFA501B6DF82F00611197 /* Answer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8EFA4F1B6DF82F00611197 /* Answer.m */; };
 		7E8EFA531B70A3AB00611197 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8EFA521B70A3AB00611197 /* Profile.m */; };
 		7E91485E1A32EF8D008F0763 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E91485D1A32EF8D008F0763 /* Person.m */; };
+		7E943ED01B71C55700980BD1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E943ECF1B71C55700980BD1 /* Default.png */; };
 		7ECB6E591A3920280004F357 /* You.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECB6E581A3920280004F357 /* You.m */; };
 		7ECB6E5C1A3921440004F357 /* Them.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECB6E5B1A3921440004F357 /* Them.m */; };
 		7ECB6E5F1A3921DE0004F357 /* Results.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECB6E5E1A3921DE0004F357 /* Results.m */; };
@@ -66,6 +67,7 @@
 		7E8EFA521B70A3AB00611197 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		7E91485C1A32EF8D008F0763 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		7E91485D1A32EF8D008F0763 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		7E943ECF1B71C55700980BD1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7ECB6E571A3920280004F357 /* You.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = You.h; sourceTree = "<group>"; };
 		7ECB6E581A3920280004F357 /* You.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = You.m; sourceTree = "<group>"; };
 		7ECB6E5A1A3921440004F357 /* Them.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Them.h; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				7ECB6E5D1A3921DE0004F357 /* Results.h */,
 				7ECB6E5E1A3921DE0004F357 /* Results.m */,
 				7E3293DD1A32539300D365B1 /* Images.xcassets */,
+				7E943ECF1B71C55700980BD1 /* Default.png */,
 				7E3293D41A32539300D365B1 /* AppDelegate.h */,
 				7E3293D51A32539300D365B1 /* AppDelegate.m */,
 				7E3293D01A32539300D365B1 /* Supporting Files */,
@@ -262,7 +265,7 @@
 				TargetAttributes = {
 					7E3293CC1A32539300D365B1 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = K67BH4CDWP;
+						DevelopmentTeam = 3YH5RQ572Q;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -302,6 +305,7 @@
 				7E3293DC1A32539300D365B1 /* Main.storyboard in Resources */,
 				7E3293E11A32539300D365B1 /* LaunchScreen.xib in Resources */,
 				7E3293DE1A32539300D365B1 /* Images.xcassets in Resources */,
+				7E943ED01B71C55700980BD1 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
