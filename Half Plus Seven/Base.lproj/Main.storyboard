@@ -92,14 +92,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Thier Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
-                                <rect key="frame" x="50" y="50" width="500" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
-                                <connections>
-                                    <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-BV-KxB">
                                 <rect key="frame" x="250" y="300" width="100" height="50"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
@@ -137,6 +129,14 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Their Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
+                                <rect key="frame" x="50" y="50" width="500" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -220,6 +220,12 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Next" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNI-tR-NfT">
+                                <rect key="frame" x="16" y="559" width="568" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="textColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -229,7 +235,9 @@
                             <constraint firstItem="t8B-hy-PxN" firstAttribute="width" secondItem="hSi-Jv-HpD" secondAttribute="width" id="QZU-Oc-8Co"/>
                             <constraint firstItem="FIT-pq-Tgh" firstAttribute="top" secondItem="t8B-hy-PxN" secondAttribute="bottom" constant="5" id="UJJ-2p-LjJ"/>
                             <constraint firstItem="vgl-az-PRL" firstAttribute="top" secondItem="Zzj-ID-luo" secondAttribute="bottom" id="YOy-Qr-TdB"/>
+                            <constraint firstItem="ONd-fS-jiu" firstAttribute="top" secondItem="DNI-tR-NfT" secondAttribute="bottom" constant="20" id="dWC-iX-7MI"/>
                             <constraint firstItem="vgl-az-PRL" firstAttribute="width" secondItem="hSi-Jv-HpD" secondAttribute="width" id="e49-Kt-BQw"/>
+                            <constraint firstItem="DNI-tR-NfT" firstAttribute="trailing" secondItem="hSi-Jv-HpD" secondAttribute="trailingMargin" id="e5b-mx-3mn"/>
                             <constraint firstAttribute="centerX" secondItem="FIT-pq-Tgh" secondAttribute="centerX" id="fOv-VF-Td6"/>
                             <constraint firstAttribute="centerX" secondItem="t8B-hy-PxN" secondAttribute="centerX" id="hxr-n1-yjD"/>
                             <constraint firstAttribute="centerX" secondItem="IUo-UU-bOo" secondAttribute="centerX" id="j0B-Mg-kS0"/>
@@ -551,8 +559,8 @@
         <image name="Star" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="B42-yx-HKD"/>
-        <segue reference="Int-IJ-iic"/>
+        <segue reference="zQK-l9-X2R"/>
+        <segue reference="HPF-Qh-fCS"/>
         <segue reference="or8-BC-UMN"/>
     </inferredMetricsTieBreakers>
 </document>

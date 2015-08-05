@@ -17,6 +17,7 @@
     [self.theirName setText:@""];
     [self.theirDOB setDate:[NSDate dateWithTimeIntervalSince1970:360936000]];
     [self.theirDOB addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.theirName becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

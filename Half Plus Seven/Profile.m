@@ -11,6 +11,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.username becomeFirstResponder];
 }
 
 - (IBAction)signUp:(id)sender {
