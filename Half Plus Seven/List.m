@@ -108,7 +108,7 @@
         PFQuery *query= [PFUser query];
         [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-            self.profile.title = [currentUser.username capitalizedString];
+            self.profile.title = [[currentUser objectForKey:@"name"] capitalizedString];
         }];
     }
 }

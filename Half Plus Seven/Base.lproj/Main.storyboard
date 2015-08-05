@@ -92,6 +92,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Their Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
+                                <rect key="frame" x="50" y="50" width="500" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
+                                </connections>
+                            </textField>
                             <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="C89-BK-rIh">
                                 <rect key="frame" x="50" y="100" width="500" height="200"/>
                                 <date key="date" timeIntervalSinceReferenceDate="439547634.96596998">
@@ -117,14 +125,6 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Their Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
-                                <rect key="frame" x="50" y="50" width="500" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
-                                <connections>
-                                    <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-BV-KxB">
                                 <rect key="frame" x="250" y="300" width="100" height="50"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
@@ -380,33 +380,27 @@
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pYj-Qr-LDe">
                                 <rect key="frame" x="150" y="150" width="300" height="300"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xy6-Qv-jhL">
-                                        <rect key="frame" x="50" y="50" width="200" height="50"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CH2-HV-6up">
+                                        <rect key="frame" x="20" y="100" width="260" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                         <connections>
-                                            <outlet property="delegate" destination="Z79-Ls-pfT" id="jqA-tz-Nv3"/>
+                                            <outlet property="delegate" destination="Z79-Ls-pfT" id="J7S-zo-HlN"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="email" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9f0-Id-vaR">
+                                        <rect key="frame" x="20" y="50" width="260" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Z79-Ls-pfT" id="Xn3-9v-xAM"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zt8-TX-QbK">
-                                        <rect key="frame" x="40" y="220" width="100" height="40"/>
+                                        <rect key="frame" x="20" y="200" width="260" height="50"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
-                                        <state key="normal" title="Sign up">
+                                        <state key="normal" title="Begin">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="signUp:" destination="Z79-Ls-pfT" eventType="touchUpInside" id="YUb-MI-2dy"/>
-                                            <action selector="update:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RL8-oj-2he"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYk-lV-yEF">
-                                        <rect key="frame" x="160" y="220" width="100" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
-                                        <state key="normal" title="Log in">
-                                            <color key="titleColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -414,33 +408,15 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="logIn:" destination="Z79-Ls-pfT" eventType="touchUpInside" id="0YA-y3-pA7"/>
-                                            <action selector="update:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mHX-Qa-yW5"/>
+                                            <action selector="signUp:" destination="Z79-Ls-pfT" eventType="touchUpInside" id="YUb-MI-2dy"/>
+                                            <action selector="update:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RL8-oj-2he"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CH2-HV-6up">
-                                        <rect key="frame" x="50" y="150" width="200" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="Z79-Ls-pfT" id="J7S-zo-HlN"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Email" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9f0-Id-vaR">
-                                        <rect key="frame" x="50" y="100" width="200" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="Z79-Ls-pfT" id="Xn3-9v-xAM"/>
-                                        </connections>
-                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="CH2-HV-6up" secondAttribute="centerX" id="1qx-T6-xae"/>
-                                    <constraint firstItem="CH2-HV-6up" firstAttribute="trailing" secondItem="pYk-lV-yEF" secondAttribute="trailing" id="9IE-Nh-eIx"/>
                                     <constraint firstAttribute="centerX" secondItem="9f0-Id-vaR" secondAttribute="centerX" id="jRB-Sl-y9P"/>
-                                    <constraint firstAttribute="centerX" secondItem="xy6-Qv-jhL" secondAttribute="centerX" id="roO-ht-Pog"/>
                                     <constraint firstItem="CH2-HV-6up" firstAttribute="leading" secondItem="Zt8-TX-QbK" secondAttribute="leading" id="zmj-yY-9TW"/>
                                 </constraints>
                             </view>
@@ -448,13 +424,13 @@
                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="pYj-Qr-LDe" secondAttribute="centerX" id="0Zl-BK-Iul"/>
-                            <constraint firstAttribute="centerY" secondItem="pYj-Qr-LDe" secondAttribute="centerY" id="fEV-wy-0MC"/>
+                            <constraint firstAttribute="centerY" secondItem="pYj-Qr-LDe" secondAttribute="centerY" constant="50" id="fEV-wy-0MC"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="email" destination="9f0-Id-vaR" id="CMs-8b-9zJ"/>
                         <outlet property="password" destination="CH2-HV-6up" id="rD3-ZD-LSM"/>
-                        <outlet property="username" destination="xy6-Qv-jhL" id="JTy-tl-yPH"/>
+                        <outlet property="signUpButton" destination="Zt8-TX-QbK" id="2gz-2T-3Sr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4HQ-K1-RO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -489,6 +465,8 @@
                             </datePicker>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhN-wk-XHi">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="barTintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -559,8 +537,8 @@
         <image name="Star" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Wy4-R4-Xer"/>
+        <segue reference="hpp-Nh-65m"/>
         <segue reference="or8-BC-UMN"/>
-        <segue reference="Int-IJ-iic"/>
+        <segue reference="zQK-l9-X2R"/>
     </inferredMetricsTieBreakers>
 </document>

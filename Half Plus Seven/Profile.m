@@ -11,22 +11,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.username becomeFirstResponder];
+    [self.email becomeFirstResponder];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[self.signUpButton layer] setBorderWidth:1.5f];
+    [[self.signUpButton layer] setBorderColor:[UIColor whiteColor].CGColor];
 }
 
 - (IBAction)signUp:(id)sender {
     [self signUp];
 }
 
-- (IBAction)logIn:(id)sender {
-    [self logIn];
-}
-
 NSString *signUpError;
 
 - (void)signUp{
     PFUser *user = [PFUser user];
-    user.username = [self.username.text lowercaseString];
+    user.username = [self.email.text lowercaseString];
     user.password = self.password.text;
     user.email = [self.email.text lowercaseString];
     
@@ -44,7 +45,7 @@ NSString *signUpError;
 }
 
 - (void)logIn{
-    [PFUser logInWithUsernameInBackground:[self.username.text lowercaseString] password:self.password.text block:^(PFUser *user, NSError *error) {
+    [PFUser logInWithUsernameInBackground:[self.email.text lowercaseString] password:self.password.text block:^(PFUser *user, NSError *error) {
         if (user) {
             List *list = [self.storyboard instantiateViewControllerWithIdentifier:@"List"];
             [self.view.window makeKeyAndVisible];

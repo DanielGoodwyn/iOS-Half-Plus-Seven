@@ -18,7 +18,7 @@
         PFQuery *query= [PFUser query];
         [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-            [self.yourName setText:[[[query getObjectWithId:object.objectId] objectForKey:@"username"] capitalizedString]];
+            [self.yourName setText:[[[query getObjectWithId:object.objectId] objectForKey:@"name"] capitalizedString]];
             [self.yourDOB setDate:[[query getObjectWithId:object.objectId] objectForKey:@"DOB"]];
         }];
     } else {
@@ -27,6 +27,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.yourName becomeFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -70,9 +71,11 @@
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser) {
         if ([self.yourName.text isEqual: @""]) {
-            [currentUser setUsername:@"👤"];
+            //[currentUser setUsername:@"👤"];
+            [currentUser setObject:@"👤" forKey:@"name"];
         } else {
-            [currentUser setUsername:[self.yourName.text lowercaseString]];
+            //[currentUser setUsername:[self.yourName.text lowercaseString]];
+            [currentUser setObject:[self.yourName.text lowercaseString] forKey:@"name"];
         }
         [currentUser setValue:[self getDate:self.yourDOB] forKey:@"DOB"];
         [currentUser save];
