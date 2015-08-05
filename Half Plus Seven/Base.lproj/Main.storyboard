@@ -78,7 +78,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wtt-O8-eV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="562" y="-578"/>
+            <point key="canvasLocation" x="1795" y="149"/>
         </scene>
         <!--Them-->
         <scene sceneID="ikd-lH-6op">
@@ -92,18 +92,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-BV-KxB">
-                                <rect key="frame" x="250" y="300" width="100" height="50"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
-                                <state key="normal" title="Add">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="update:" destination="R5k-mz-DWD" eventType="touchUpInside" id="EgR-UK-AYU"/>
-                                    <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="HPF-Qh-fCS"/>
-                                </connections>
-                            </button>
                             <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="C89-BK-rIh">
                                 <rect key="frame" x="50" y="100" width="500" height="200"/>
                                 <date key="date" timeIntervalSinceReferenceDate="439547634.96596998">
@@ -137,6 +125,18 @@
                                     <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-BV-KxB">
+                                <rect key="frame" x="250" y="300" width="100" height="50"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="update:" destination="R5k-mz-DWD" eventType="touchUpInside" id="EgR-UK-AYU"/>
+                                    <segue destination="qDd-Kx-jo1" kind="show" identifier="themToAnswer" id="Wy4-R4-Xer"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -253,7 +253,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QZF-ti-CMZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-669" y="-578"/>
+            <point key="canvasLocation" x="1179" y="149"/>
         </scene>
         <!--List-->
         <scene sceneID="gbR-9r-Zxv">
@@ -559,8 +559,8 @@
         <image name="Star" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zQK-l9-X2R"/>
-        <segue reference="HPF-Qh-fCS"/>
+        <segue reference="Wy4-R4-Xer"/>
         <segue reference="or8-BC-UMN"/>
+        <segue reference="Int-IJ-iic"/>
     </inferredMetricsTieBreakers>
 </document>

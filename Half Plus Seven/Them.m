@@ -1,5 +1,6 @@
 
 #import "Them.h"
+#import "Answer.h"
 
 @interface Them ()
 
@@ -76,6 +77,14 @@
 
 - (IBAction)update:(id)sender {
     [self update];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"themToAnswer"]) {
+        Answer *answer = [segue destinationViewController];
+        [answer setPassedPerson:self.theirName.text];
+        [answer setPassedDOB:self.theirDOB.date];
+    }
 }
 
 @end
