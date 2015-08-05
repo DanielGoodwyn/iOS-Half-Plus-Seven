@@ -18,7 +18,7 @@
         PFQuery *query= [PFUser query];
         [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-            [self.yourName setText:[[query getObjectWithId:object.objectId] objectForKey:@"username"]];
+            [self.yourName setText:[[[query getObjectWithId:object.objectId] objectForKey:@"username"] capitalizedString]];
             [self.yourDOB setDate:[[query getObjectWithId:object.objectId] objectForKey:@"DOB"]];
         }];
     } else {
@@ -72,7 +72,7 @@
         if ([self.yourName.text isEqual: @""]) {
             [currentUser setUsername:@"👤"];
         } else {
-            [currentUser setUsername:self.yourName.text];
+            [currentUser setUsername:[self.yourName.text lowercaseString]];
         }
         [currentUser setValue:[self getDate:self.yourDOB] forKey:@"DOB"];
         [currentUser save];

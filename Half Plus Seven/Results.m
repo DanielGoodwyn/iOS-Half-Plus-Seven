@@ -20,7 +20,7 @@
     PFQuery *yourselfQuery= [PFUser query];
     [yourselfQuery whereKey:@"username" equalTo:[[PFUser currentUser]username]];
     [yourselfQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-        self.yourself.name = [[yourselfQuery getObjectWithId:object.objectId] objectForKey:@"username"];
+        self.yourself.name = [[[yourselfQuery getObjectWithId:object.objectId] objectForKey:@"username"] capitalizedString];
         self.yourself.DOB = [[yourselfQuery getObjectWithId:object.objectId] objectForKey:@"DOB"];
         self.themself.name = passedPerson;
         self.themself.DOB = passedDOB;

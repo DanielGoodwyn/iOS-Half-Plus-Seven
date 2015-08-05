@@ -26,9 +26,9 @@ NSString *signUpError;
 
 - (void)signUp{
     PFUser *user = [PFUser user];
-    user.username = self.username.text;
+    user.username = [self.username.text lowercaseString];
     user.password = self.password.text;
-    user.email = self.email.text;
+    user.email = [self.email.text lowercaseString];
     
     user[@"DOB"] = [NSDate dateWithTimeIntervalSince1970:595857600];
     
@@ -44,7 +44,7 @@ NSString *signUpError;
 }
 
 - (void)logIn{
-    [PFUser logInWithUsernameInBackground:self.username.text password:self.password.text block:^(PFUser *user, NSError *error) {
+    [PFUser logInWithUsernameInBackground:[self.username.text lowercaseString] password:self.password.text block:^(PFUser *user, NSError *error) {
         if (user) {
             List *list = [self.storyboard instantiateViewControllerWithIdentifier:@"List"];
             [self.view.window makeKeyAndVisible];
