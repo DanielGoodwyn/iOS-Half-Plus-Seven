@@ -22,12 +22,12 @@
 }
 
 - (void)getAgeForDate: (NSDate*)date {
-    float age = (((([date timeIntervalSinceNow]*-1)/365)/24)/60)/60;
+    float age = (((([date timeIntervalSinceNow]*-1)/365.25)/24)/60)/60;
     self.age = age;
 }
 
 - (void)getAge{
-    float age = (((([self.DOB timeIntervalSinceNow]*-1)/365)/24)/60)/60;
+    float age = (((([self.DOB timeIntervalSinceNow]*-1)/365.25)/24)/60)/60;
     self.age = age;
 }
 

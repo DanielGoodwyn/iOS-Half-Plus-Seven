@@ -50,6 +50,10 @@ NSString *signUpError;
             List *list = [self.storyboard instantiateViewControllerWithIdentifier:@"List"];
             [self.view.window makeKeyAndVisible];
             [self presentViewController:list animated:YES completion:nil];
+        } else {
+            NSString *errorString = [error userInfo][@"error"];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
         }
     }];
 }
