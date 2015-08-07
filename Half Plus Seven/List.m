@@ -2,6 +2,7 @@
 #import "List.h"
 #import "Answer.h"
 #import "Profile.h"
+#import "You.h"
 
 @interface List ()
 
@@ -22,6 +23,7 @@
     
     PFUser *user = [PFUser currentUser];
     if (user) {
+        [self.activityIndicator startAnimating];
         PFQuery *themselfArrayQuery = [PFQuery queryWithClassName:@"Person"];
         [themselfArrayQuery orderByAscending:@"name"];
         [themselfArrayQuery whereKey:@"user" equalTo:user];
@@ -38,6 +40,7 @@
             } else {
                 [self.add setAlpha:0];
             }
+            [self.activityIndicator stopAnimating];
             [self.peopleTableView reloadData];
         }];
     }
@@ -119,6 +122,10 @@
         NSIndexPath *indexPath = [self.peopleTableView indexPathForSelectedRow];
         [answer setPassedPerson:[self.people objectAtIndex: indexPath.row]];
         [answer setPassedDOB:[self.DOBs objectAtIndex: indexPath.row]];
+    } else if ([[segue identifier] isEqualToString:@"listToYou"]) {
+        You *you = [segue destinationViewController];
+        NSIndexPath *indexPath = [self.peopleTableView indexPathForSelectedRow];
+        [you setPassedPerson:[self.people objectAtIndex: indexPath.row]];
     }
 }
 

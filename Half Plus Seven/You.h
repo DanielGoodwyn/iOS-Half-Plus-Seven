@@ -4,11 +4,21 @@
 #import "Person.h"
 
 @interface You : UIViewController
+{
+    NSString *passedPerson;
+    NSDate *passedDOB;
+}
 
-@property IBOutlet UITextField *yourName;
+@property IBOutlet UITextField *name;
 @property IBOutlet UIDatePicker *yourDOB;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *logOut;
+@property(nonatomic) NSString *passedPerson;
+@property(nonatomic) NSDate *passedDOB;
+@property (weak, nonatomic) IBOutlet UITextField *ageTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 - (NSDate*)getDate:(id)sender;
+- (IBAction)valueChanged:(id)sender;
+- (IBAction)editingChanged:(id)sender;
+- (IBAction)didEndOnExit:(id)sender;
 
 @end

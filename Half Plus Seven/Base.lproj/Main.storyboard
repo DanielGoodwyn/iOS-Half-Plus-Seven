@@ -92,20 +92,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Their Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
-                                <rect key="frame" x="50" y="50" width="500" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FVq-32-vPm">
+                                <rect key="frame" x="175" y="100" width="250" height="29"/>
+                                <segments>
+                                    <segment title="Name"/>
+                                    <segment title="Birthday"/>
+                                    <segment title="Age"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="delegate" destination="R5k-mz-DWD" id="g5A-fJ-BNs"/>
+                                    <action selector="segmentedControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Aud-FN-wGe"/>
+                                    <action selector="segmentedControl:" destination="R5k-mz-DWD" eventType="valueChanged" id="iSG-Lm-vVN"/>
                                 </connections>
-                            </textField>
-                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="C89-BK-rIh">
-                                <rect key="frame" x="50" y="100" width="500" height="200"/>
+                            </segmentedControl>
+                            <datePicker alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="C89-BK-rIh">
+                                <rect key="frame" x="50" y="200" width="500" height="200"/>
                                 <date key="date" timeIntervalSinceReferenceDate="439547634.96596998">
                                     <!--2014-12-06 08:33:54 +0000-->
                                 </date>
+                                <connections>
+                                    <action selector="valueChanged:" destination="R5k-mz-DWD" eventType="valueChanged" id="u3T-DY-feI"/>
+                                </connections>
                             </datePicker>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Age" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hen-rV-lcI">
+                                <rect key="frame" x="50" y="275" width="500" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next"/>
+                                <connections>
+                                    <action selector="editingChanged:" destination="R5k-mz-DWD" eventType="editingChanged" id="hBL-Ta-1LB"/>
+                                    <outlet property="delegate" destination="R5k-mz-DWD" id="ekl-oQ-Aat"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TQG-8L-UJ3">
+                                <rect key="frame" x="50" y="275" width="500" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                                <connections>
+                                    <action selector="didEndOnExit:" destination="R5k-mz-DWD" eventType="editingDidEndOnExit" id="COS-Uu-bvm"/>
+                                </connections>
+                            </textField>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11P-PP-ha4">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
@@ -116,58 +141,58 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="New Person" id="IXY-sG-X77">
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="gRa-mG-0c4">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="gRa-mG-0c4">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="4YX-MC-ktw"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Add" style="plain" id="5ID-bo-5cE">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="update:" destination="R5k-mz-DWD" id="D6b-7g-1y9"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-BV-KxB">
-                                <rect key="frame" x="250" y="300" width="100" height="50"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
-                                <state key="normal" title="Add">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="update:" destination="R5k-mz-DWD" eventType="touchUpInside" id="EgR-UK-AYU"/>
-                                    <segue destination="qDd-Kx-jo1" kind="show" identifier="themToAnswer" id="Wy4-R4-Xer"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="TQG-8L-UJ3" firstAttribute="leading" secondItem="LI9-W8-VrJ" secondAttribute="leadingMargin" constant="34" id="3DI-JB-3ni"/>
                             <constraint firstItem="11P-PP-ha4" firstAttribute="width" secondItem="LI9-W8-VrJ" secondAttribute="width" id="6cQ-nh-J7M"/>
-                            <constraint firstItem="vUh-BV-KxB" firstAttribute="width" secondItem="LI9-W8-VrJ" secondAttribute="width" id="Gai-VD-Rdh"/>
-                            <constraint firstItem="Um8-ze-8tH" firstAttribute="top" secondItem="vUh-BV-KxB" secondAttribute="bottom" priority="750" constant="50" id="YLC-cs-mZc"/>
+                            <constraint firstItem="FVq-32-vPm" firstAttribute="leading" secondItem="LI9-W8-VrJ" secondAttribute="leadingMargin" constant="34" id="9OG-dX-4BC"/>
+                            <constraint firstItem="TQG-8L-UJ3" firstAttribute="leading" secondItem="LI9-W8-VrJ" secondAttribute="leadingMargin" constant="34" id="Amq-5P-xWu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hen-rV-lcI" secondAttribute="trailing" constant="34" id="J4I-TW-CYP"/>
+                            <constraint firstAttribute="centerX" secondItem="C89-BK-rIh" secondAttribute="centerX" id="XWX-BW-JAO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C89-BK-rIh" secondAttribute="trailing" constant="20" id="byc-ps-hFf"/>
+                            <constraint firstAttribute="centerX" secondItem="TQG-8L-UJ3" secondAttribute="centerX" id="eEZ-UB-ziN"/>
                             <constraint firstAttribute="centerY" secondItem="C89-BK-rIh" secondAttribute="centerY" id="ez0-TX-QHl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FVq-32-vPm" secondAttribute="trailing" constant="34" id="fMU-NB-7sp"/>
                             <constraint firstItem="11P-PP-ha4" firstAttribute="top" secondItem="GDb-kq-IwD" secondAttribute="bottom" id="gZI-FF-VhU"/>
-                            <constraint firstAttribute="centerX" secondItem="vUh-BV-KxB" secondAttribute="centerX" id="hgQ-nu-qTR"/>
-                            <constraint firstItem="TQG-8L-UJ3" firstAttribute="top" secondItem="GDb-kq-IwD" secondAttribute="bottom" constant="30" id="plV-vr-z9U"/>
+                            <constraint firstItem="hen-rV-lcI" firstAttribute="leading" secondItem="LI9-W8-VrJ" secondAttribute="leadingMargin" constant="34" id="iL5-Gg-GT7"/>
+                            <constraint firstAttribute="centerX" secondItem="hen-rV-lcI" secondAttribute="centerX" id="jtf-jg-Cbm"/>
+                            <constraint firstItem="C89-BK-rIh" firstAttribute="top" secondItem="FVq-32-vPm" secondAttribute="bottom" constant="10" id="nMf-rg-eKs"/>
                             <constraint firstItem="C89-BK-rIh" firstAttribute="leading" secondItem="LI9-W8-VrJ" secondAttribute="leadingMargin" constant="20" id="rlc-9E-o5g"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="TQG-8L-UJ3" secondAttribute="trailing" constant="34" id="skl-vI-g3z"/>
-                            <constraint firstItem="C89-BK-rIh" firstAttribute="top" secondItem="TQG-8L-UJ3" secondAttribute="bottom" constant="10" id="w1v-Lt-s8R"/>
-                            <constraint firstItem="vUh-BV-KxB" firstAttribute="top" secondItem="C89-BK-rIh" secondAttribute="bottom" constant="10" id="wTh-GF-3JI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TQG-8L-UJ3" secondAttribute="trailing" constant="34" id="umf-7d-wd5"/>
+                            <constraint firstAttribute="centerY" secondItem="hen-rV-lcI" secondAttribute="centerY" id="vht-RL-ewc"/>
+                            <constraint firstAttribute="centerY" secondItem="TQG-8L-UJ3" secondAttribute="centerY" id="yPn-gZ-dl2"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="segmentedControl" destination="FVq-32-vPm" id="wgT-PT-fuu"/>
+                        <outlet property="theirAge" destination="hen-rV-lcI" id="Qp1-XC-f91"/>
                         <outlet property="theirDOB" destination="C89-BK-rIh" id="RqI-rf-jpq"/>
                         <outlet property="theirName" destination="TQG-8L-UJ3" id="Yhn-B9-Dn1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m6N-PU-ZK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="562" y="149"/>
+            <point key="canvasLocation" x="563" y="149"/>
         </scene>
         <!--Answer-->
         <scene sceneID="8DY-oW-ADW">
             <objects>
-                <viewController id="qDd-Kx-jo1" customClass="Answer" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Answer" title="Answer" id="qDd-Kx-jo1" customClass="Answer" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zzj-ID-luo"/>
                         <viewControllerLayoutGuide type="bottom" id="ONd-fS-jiu"/>
@@ -280,7 +305,7 @@
                                         <barButtonItem key="leftBarButtonItem" title="👤" style="plain" id="S8G-gX-Sr4">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="vXZ-lx-hvc" kind="modal" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
+                                                <segue destination="vXZ-lx-hvc" kind="modal" identifier="ListToYou" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
@@ -340,14 +365,19 @@
                                     <segue destination="R5k-mz-DWD" kind="show" id="or8-BC-UMN"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yt8-HS-62V">
+                                <rect key="frame" x="282" y="282" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="UJ0-6H-onv" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="19w-xT-AW7"/>
                             <constraint firstAttribute="centerY" secondItem="JkE-8l-eri" secondAttribute="centerY" id="51f-Zl-4NR"/>
+                            <constraint firstAttribute="centerY" secondItem="yt8-HS-62V" secondAttribute="centerY" id="EEb-4q-lsK"/>
                             <constraint firstItem="UJ0-6H-onv" firstAttribute="top" secondItem="GzK-dO-7is" secondAttribute="bottom" id="HIS-Xp-SA8"/>
                             <constraint firstItem="Fv9-eF-Wj3" firstAttribute="top" secondItem="KrY-it-bu2" secondAttribute="bottom" id="OPL-nP-XlX"/>
+                            <constraint firstAttribute="centerX" secondItem="yt8-HS-62V" secondAttribute="centerX" id="Z3G-nc-lUZ"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="gEh-td-u9e"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="width" secondItem="iPd-Au-aXP" secondAttribute="width" id="iBQ-KS-ocV"/>
                             <constraint firstItem="KrY-it-bu2" firstAttribute="top" secondItem="UJ0-6H-onv" secondAttribute="bottom" id="iXR-HB-wWD"/>
@@ -356,6 +386,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="List" id="69W-l2-yBU"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="yt8-HS-62V" id="AMa-4V-NLp"/>
                         <outlet property="add" destination="JkE-8l-eri" id="9yq-0f-2sR"/>
                         <outlet property="peopleTableView" destination="KrY-it-bu2" id="UJ8-K9-VMh"/>
                         <outlet property="profile" destination="S8G-gX-Sr4" id="hfR-WH-wob"/>
@@ -449,20 +480,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Your Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hYP-ee-i8u">
-                                <rect key="frame" x="50" y="50" width="500" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vPM-9P-z48">
+                                <rect key="frame" x="175" y="100" width="250" height="29"/>
+                                <segments>
+                                    <segment title="Name"/>
+                                    <segment title="Birthday"/>
+                                    <segment title="Age"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="bqz-hg-LBr"/>
+                                    <action selector="segmentedControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="1te-jn-fLo"/>
                                 </connections>
-                            </textField>
-                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PH7-AB-wZZ">
-                                <rect key="frame" x="50" y="100" width="500" height="200"/>
+                            </segmentedControl>
+                            <datePicker alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PH7-AB-wZZ">
+                                <rect key="frame" x="50" y="200" width="500" height="200"/>
                                 <date key="date" timeIntervalSinceReferenceDate="-382420799.0340271">
                                     <!--1988-11-18 20:00:00 +0000-->
                                 </date>
+                                <connections>
+                                    <action selector="valueChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="x32-YH-FJi"/>
+                                </connections>
                             </datePicker>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Age" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="HaX-J0-uOI">
+                                <rect key="frame" x="41" y="185" width="500" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="editingChanged:" destination="vXZ-lx-hvc" eventType="editingChanged" id="q6v-ec-fN1"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cki-5t-bHu">
+                                <rect key="frame" x="50" y="275" width="500" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="didEndOnExit:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="wFB-30-rLW"/>
+                                </connections>
+                            </textField>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhN-wk-XHi">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
@@ -473,58 +527,63 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Edit Profile" id="4n6-fx-BW5">
-                                        <barButtonItem key="leftBarButtonItem" title="Log out" style="plain" id="JY2-iI-IQl">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="logOut:" destination="vXZ-lx-hvc" id="Krm-QW-LwZ"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="JI8-Lk-a4y">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="JI8-Lk-a4y">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="Lz9-iO-sCH"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Update" id="wms-Gp-DD2">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="update:" destination="vXZ-lx-hvc" id="BLC-e2-cWG"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wnd-GQ-P9X">
-                                <rect key="frame" x="250" y="300" width="100" height="50"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
-                                <state key="normal" title="Update">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSX-tU-o0i">
+                                <rect key="frame" x="0.0" y="100" width="34" height="34"/>
+                                <state key="normal" image="logout">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="update:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="CpL-vE-3Ov"/>
-                                    <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="hpp-Nh-65m"/>
+                                    <action selector="logOut:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="VJJ-pr-IRw"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="Wnd-GQ-P9X" secondAttribute="width" id="0Zw-CB-Gbo"/>
-                            <constraint firstAttribute="centerX" secondItem="Wnd-GQ-P9X" secondAttribute="centerX" id="45g-2c-oDY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hYP-ee-i8u" secondAttribute="trailing" constant="34" id="6NL-iP-L5W"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Wnd-GQ-P9X" secondAttribute="bottom" priority="750" constant="50" id="AiV-SU-50b"/>
+                            <constraint firstItem="PH7-AB-wZZ" firstAttribute="top" secondItem="vPM-9P-z48" secondAttribute="bottom" constant="10" id="0cR-Uh-yPm"/>
+                            <constraint firstAttribute="centerX" secondItem="cki-5t-bHu" secondAttribute="centerX" id="6GJ-NN-9Tp"/>
+                            <constraint firstAttribute="centerY" secondItem="HaX-J0-uOI" secondAttribute="centerY" id="Bbw-LW-JVS"/>
                             <constraint firstItem="PH7-AB-wZZ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="BlD-zZ-Hkn"/>
+                            <constraint firstAttribute="centerY" secondItem="cki-5t-bHu" secondAttribute="centerY" id="CtC-UE-j7f"/>
                             <constraint firstItem="yhN-wk-XHi" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="GHC-ir-Xn1"/>
-                            <constraint firstItem="hYP-ee-i8u" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="34" id="HMM-Mv-3ad"/>
-                            <constraint firstItem="PH7-AB-wZZ" firstAttribute="top" secondItem="hYP-ee-i8u" secondAttribute="bottom" constant="10" id="IYu-aU-jCe"/>
-                            <constraint firstItem="Wnd-GQ-P9X" firstAttribute="top" secondItem="PH7-AB-wZZ" secondAttribute="bottom" constant="10" id="Jz0-m8-C6m"/>
-                            <constraint firstItem="hYP-ee-i8u" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="KB4-zZ-eyy"/>
+                            <constraint firstItem="HaX-J0-uOI" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="KwN-cP-Sso"/>
+                            <constraint firstItem="vPM-9P-z48" firstAttribute="leading" secondItem="pSX-tU-o0i" secondAttribute="trailing" id="WUu-dQ-kVB"/>
                             <constraint firstAttribute="centerY" secondItem="PH7-AB-wZZ" secondAttribute="centerY" id="az1-co-ouF"/>
+                            <constraint firstItem="pSX-tU-o0i" firstAttribute="centerY" secondItem="vPM-9P-z48" secondAttribute="centerY" id="cf9-iB-dEU"/>
+                            <constraint firstItem="cki-5t-bHu" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="dEO-TR-nVk"/>
+                            <constraint firstAttribute="centerX" secondItem="PH7-AB-wZZ" secondAttribute="centerX" id="fbf-fc-CLM"/>
+                            <constraint firstAttribute="centerX" secondItem="HaX-J0-uOI" secondAttribute="centerX" id="jUx-ap-2Ot"/>
+                            <constraint firstItem="vPM-9P-z48" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="34" id="k7k-DT-pEK"/>
+                            <constraint firstItem="pSX-tU-o0i" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="lVM-gD-xaV"/>
                             <constraint firstItem="yhN-wk-XHi" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="mbg-bf-iT7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PH7-AB-wZZ" secondAttribute="trailing" constant="20" id="uAP-Q8-kFu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vPM-9P-z48" secondAttribute="trailing" constant="34" id="yRG-es-JqH"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" enabled="NO" title="" id="Jug-6g-V5N" userLabel=" "/>
+                    <navigationItem key="navigationItem" id="Nbc-NO-HEE"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="logOut" destination="JY2-iI-IQl" id="BBI-up-C6l"/>
+                        <outlet property="ageTextField" destination="HaX-J0-uOI" id="FC2-Tg-ffy"/>
+                        <outlet property="name" destination="cki-5t-bHu" id="VGI-hT-72m"/>
+                        <outlet property="segmentedControl" destination="vPM-9P-z48" id="s5f-LM-0XF"/>
                         <outlet property="yourDOB" destination="PH7-AB-wZZ" id="7Lo-eK-rur"/>
-                        <outlet property="yourName" destination="hYP-ee-i8u" id="COd-Om-kz8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -535,10 +594,11 @@
     <resources>
         <image name="List" width="33" height="33"/>
         <image name="Star" width="33" height="33"/>
+        <image name="logout" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hpp-Nh-65m"/>
-        <segue reference="or8-BC-UMN"/>
-        <segue reference="zQK-l9-X2R"/>
+        <segue reference="Lz9-iO-sCH"/>
+        <segue reference="jWg-SQ-zlc"/>
+        <segue reference="B42-yx-HKD"/>
     </inferredMetricsTieBreakers>
 </document>
