@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface List : UIViewController
+@interface NamesViewController : UIViewController
 
 @property NSMutableArray *people;
 @property NSMutableArray *DOBs;

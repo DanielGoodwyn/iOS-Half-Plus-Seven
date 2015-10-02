@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface Profile : UIViewController
+@interface LogInViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *email;
 @property (weak, nonatomic) IBOutlet UITextField *password;

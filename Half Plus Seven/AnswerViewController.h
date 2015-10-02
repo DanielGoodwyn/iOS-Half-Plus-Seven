@@ -3,7 +3,7 @@
 #import <Parse/Parse.h>
 #import "Person.h"
 
-@interface Results : UIViewController
+@interface AnswerViewController : UIViewController
 {
     NSString *passedPerson;
     NSDate *passedDOB;
@@ -11,7 +11,9 @@
 
 @property Person *yourself;
 @property Person *themself;
-@property IBOutlet UILabel *us;
+@property IBOutlet UILabel *answer;
+@property IBOutlet UILabel *name;
+@property IBOutlet UILabel *emoji;
 @property(nonatomic) NSString *passedPerson;
 @property(nonatomic) NSDate *passedDOB;
 

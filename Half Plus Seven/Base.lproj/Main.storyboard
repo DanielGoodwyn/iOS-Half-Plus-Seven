@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jcB-o9-0hr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jcB-o9-0hr">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+	<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Results-->
         <scene sceneID="bZq-NC-aeE">
             <objects>
-                <viewController title="Results" id="ACb-e2-XgB" customClass="Results" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="Results" title="Results" id="ACb-e2-XgB" customClass="ResultsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="voe-pd-K4I"/>
                         <viewControllerLayoutGuide type="bottom" id="zAw-61-cdD"/>
@@ -71,7 +71,7 @@
                             <constraint firstItem="qoD-hm-vlB" firstAttribute="height" secondItem="NYQ-xV-pyH" secondAttribute="height" id="hk7-qm-MI3"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Results" image="Star" id="ccX-IT-zF8"/>
+		    <tabBarItem key="tabBarItem" title="Results" image="Names" id="ccX-IT-zF8"/>
                     <connections>
                         <outlet property="us" destination="2uy-75-oiF" id="SJv-Ej-Y0k"/>
                     </connections>
@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="1795" y="149"/>
         </scene>
-        <!--Them-->
+	<!--Add-->
         <scene sceneID="ikd-lH-6op">
             <objects>
-                <viewController title="Them" id="R5k-mz-DWD" customClass="Them" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="Add" title="Add" id="R5k-mz-DWD" customClass="AddViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GDb-kq-IwD"/>
                         <viewControllerLayoutGuide type="bottom" id="Um8-ze-8tH"/>
@@ -192,7 +192,7 @@
         <!--Answer-->
         <scene sceneID="8DY-oW-ADW">
             <objects>
-                <viewController storyboardIdentifier="Answer" title="Answer" id="qDd-Kx-jo1" customClass="Answer" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="Answer" title="Answer" id="qDd-Kx-jo1" customClass="AnswerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zzj-ID-luo"/>
                         <viewControllerLayoutGuide type="bottom" id="ONd-fS-jiu"/>
@@ -280,10 +280,10 @@
             </objects>
             <point key="canvasLocation" x="1179" y="149"/>
         </scene>
-        <!--List-->
+	<!--Names-->
         <scene sceneID="gbR-9r-Zxv">
             <objects>
-                <viewController storyboardIdentifier="List" title="List" id="jcB-o9-0hr" customClass="List" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="Names" title="Names" id="jcB-o9-0hr" customClass="NamesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GzK-dO-7is"/>
                         <viewControllerLayoutGuide type="bottom" id="Fv9-eF-Wj3"/>
@@ -305,7 +305,7 @@
                                         <barButtonItem key="leftBarButtonItem" title="👤" style="plain" id="S8G-gX-Sr4">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="vXZ-lx-hvc" kind="modal" identifier="ListToYou" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
+						<segue destination="vXZ-lx-hvc" kind="modal" identifier="NamesToUser" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
@@ -326,12 +326,14 @@
                                 <color key="sectionIndexTrackingBackgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="personCell" textLabel="foI-2r-Ct2" rowHeight="61" style="IBUITableViewCellStyleDefault" id="19l-7Q-SLW">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+					<rect key="frame" x="0.0" y="22" width="600" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="19l-7Q-SLW" id="1d2-2L-CG3">
+					    <rect key="frame" x="0.0" y="0.0" width="600" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="foI-2r-Ct2">
+						    <rect key="frame" x="15" y="0.0" width="570" height="61"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
@@ -345,7 +347,7 @@
                                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
-                                            <segue destination="qDd-Kx-jo1" kind="modal" identifier="listToAnswer" modalTransitionStyle="crossDissolve" id="zQK-l9-X2R"/>
+					    <segue destination="qDd-Kx-jo1" kind="modal" identifier="NamesToAnswer" modalTransitionStyle="crossDissolve" id="zQK-l9-X2R"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -384,7 +386,7 @@
                             <constraint firstAttribute="centerX" secondItem="JkE-8l-eri" secondAttribute="centerX" id="k70-Ox-Afj"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="List" image="List" id="69W-l2-yBU"/>
+		    <tabBarItem key="tabBarItem" title="Names" image="Names" id="69W-l2-yBU"/>
                     <connections>
                         <outlet property="activityIndicator" destination="yt8-HS-62V" id="AMa-4V-NLp"/>
                         <outlet property="add" destination="JkE-8l-eri" id="9yq-0f-2sR"/>
@@ -396,10 +398,10 @@
             </objects>
             <point key="canvasLocation" x="-54" y="149"/>
         </scene>
-        <!--Profile-->
+	<!--LogIn-->
         <scene sceneID="dOD-27-eCF">
             <objects>
-                <viewController storyboardIdentifier="Profile" id="Z79-Ls-pfT" customClass="Profile" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="LogIn" title="LogIn" id="Z79-Ls-pfT" customClass="LogInViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ezY-tL-8Xt"/>
                         <viewControllerLayoutGuide type="bottom" id="kfB-DC-1u6"/>
@@ -468,10 +470,10 @@
             </objects>
             <point key="canvasLocation" x="-1293" y="149"/>
         </scene>
-        <!--You-->
+	<!--User-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="You" title="You" id="vXZ-lx-hvc" customClass="You" sceneMemberID="viewController">
+		<viewController storyboardIdentifier="User" title="User" id="vXZ-lx-hvc" customClass="UserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -592,13 +594,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="List" width="33" height="33"/>
-        <image name="Star" width="33" height="33"/>
+	<image name="Names" width="33" height="33"/>
         <image name="logout" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jWg-SQ-zlc"/>
-	<segue reference="Int-IJ-iic"/>
-        <segue reference="B42-yx-HKD"/>
+	<segue reference="Mgh-X9-JKv"/>
+	<segue reference="zQK-l9-X2R"/>
+	<segue reference="or8-BC-UMN"/>
     </inferredMetricsTieBreakers>
 </document>

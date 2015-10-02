@@ -1,19 +1,19 @@
 
-#import "Them.h"
-#import "Answer.h"
+#import "AddViewController.h"
+#import "AnswerViewController.h"
 
-@interface Them ()
+@interface AddViewController ()
 
 @end
 
-@implementation Them {
+@implementation AddViewController {
     PFObject *themself;
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.themself = [[Person alloc] init];
     [self.theirName setText:@""];
     [self.theirDOB setDate:[NSDate dateWithTimeIntervalSince1970:360936000]];
@@ -26,9 +26,9 @@
 - (void)update {
     PFUser *user = [PFUser currentUser];
     if ([self.theirName.text isEqual: @""]) {
-        [self.themself name:@"👤"];
+	[self.themself name:@"👤"];
     } else {
-        [self.themself name:self.theirName.text];
+	[self.themself name:self.theirName.text];
     }
     [self.themself date:[self getDate:self.theirDOB]];
     [self.themself getAgeForDate:self.themself.DOB];
@@ -37,7 +37,7 @@
     themself[@"DOB"] = self.themself.DOB;
     themself[@"user"] = user;
     [themself saveInBackground];
-    Answer *answer = [self.storyboard instantiateViewControllerWithIdentifier:@"Answer"];
+    AnswerViewController *answer = [self.storyboard instantiateViewControllerWithIdentifier:@"Answer"];
     [answer setPassedPerson:self.theirName.text.capitalizedString];
     [answer setPassedDOB:self.theirDOB.date];
     [self.view.window makeKeyAndVisible];
@@ -76,34 +76,34 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"themToAnswer"]) {
-        Answer *answer = [segue destinationViewController];
-        [answer setPassedPerson:self.theirName.text.capitalizedString];
-        [answer setPassedDOB:self.theirDOB.date];
+	AnswerViewController *answer = [segue destinationViewController];
+	[answer setPassedPerson:self.theirName.text.capitalizedString];
+	[answer setPassedDOB:self.theirDOB.date];
     }
 }
 
 - (IBAction)segmentedControl:(id)sender {
-    
+
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
-    
+
     if (selectedSegment == 0) {
-        [self.theirName setAlpha:1];
-        [self.theirDOB setAlpha:0];
-        [self.theirAge setAlpha:0];
-        [self.theirName becomeFirstResponder];
+	[self.theirName setAlpha:1];
+	[self.theirDOB setAlpha:0];
+	[self.theirAge setAlpha:0];
+	[self.theirName becomeFirstResponder];
     } else if (selectedSegment == 1){
-        [self.theirName setAlpha:0];
-        [self.theirAge setAlpha:0];
-        [self.theirDOB setAlpha:1];
-        [self.theirName resignFirstResponder];
-        [self.theirAge resignFirstResponder];
+	[self.theirName setAlpha:0];
+	[self.theirAge setAlpha:0];
+	[self.theirDOB setAlpha:1];
+	[self.theirName resignFirstResponder];
+	[self.theirAge resignFirstResponder];
     } else if (selectedSegment == 2){
-        [self.theirName setAlpha:0];
-        [self.theirAge setAlpha:1];
-        [self.theirDOB setAlpha:0];
-        [self.theirAge becomeFirstResponder];
-    }    
+	[self.theirName setAlpha:0];
+	[self.theirAge setAlpha:1];
+	[self.theirDOB setAlpha:0];
+	[self.theirAge becomeFirstResponder];
+    }
 }
 
 @end

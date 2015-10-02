@@ -3,7 +3,7 @@
 #import <Parse/Parse.h>
 #import "Person.h"
 
-@interface Them : UIViewController
+@interface AddViewController : UIViewController
 
 @property Person *themself;
 @property IBOutlet UITextField *theirName;

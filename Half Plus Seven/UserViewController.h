@@ -3,7 +3,7 @@
 #import <Parse/Parse.h>
 #import "Person.h"
 
-@interface You : UIViewController
+@interface UserViewController : UIViewController
 {
     NSString *passedPerson;
     NSDate *passedDOB;
