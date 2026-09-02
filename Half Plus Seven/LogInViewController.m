@@ -1,7 +1,7 @@
-
 #import "LogInViewController.h"
 #import "NamesViewController.h"
 #import "UserViewController.h"
+@import Firebase;
 
 @interface LogInViewController ()
 
@@ -24,35 +24,45 @@
 }
 
 - (void)signUp{
-    PFUser *user = [PFUser user];
-    user.username = [self.email.text lowercaseString];
-    user.password = self.password.text;
-    user.email = [self.email.text lowercaseString];
+    NSString *emailText = [self.email.text lowercaseString];
+    NSString *passwordText = self.password.text;
 
-    user[@"DOB"] = [NSDate dateWithTimeIntervalSince1970:595857600];
-
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-	if (!error) {
-	    UserViewController *user = [self.storyboard instantiateViewControllerWithIdentifier:@"User"];
-	    [self.view.window makeKeyAndVisible];
-	    [self presentViewController:user animated:YES completion:nil];
-	} else {
-	    [self logIn];
-	}
+    [[FIRAuth auth] createUserWithEmail:emailText
+                               password:passwordText
+                             completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+        if (!error) {
+            // Write DOB to Firestore users collection
+            FIRFirestore *db = [FIRFirestore firestore];
+            [[[db collectionWithPath:@"users"] documentWithPath:authResult.user.uid] setData:@{
+                @"email": emailText,
+                @"DOB": [NSDate dateWithTimeIntervalSince1970:595857600]
+            } completion:^(NSError * _Nullable error) {
+                UserViewController *user = [self.storyboard instantiateViewControllerWithIdentifier:@"User"];
+                [self.view.window makeKeyAndVisible];
+                [self presentViewController:user animated:YES completion:nil];
+            }];
+        } else {
+            [self logIn];
+        }
     }];
 }
 
 - (void)logIn{
-    [PFUser logInWithUsernameInBackground:[self.email.text lowercaseString] password:self.password.text block:^(PFUser *user, NSError *error) {
-	if (user) {
-	    NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
-	    [self.view.window makeKeyAndVisible];
-	    [self presentViewController:names animated:YES completion:nil];
-	} else {
-	    NSString *errorString = [error userInfo][@"error"];
-	    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	    [alert show];
-	}
+    NSString *emailText = [self.email.text lowercaseString];
+    NSString *passwordText = self.password.text;
+    
+    [[FIRAuth auth] signInWithEmail:emailText
+                           password:passwordText
+                         completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+        if (authResult) {
+            NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
+            [self.view.window makeKeyAndVisible];
+            [self presentViewController:names animated:YES completion:nil];
+        } else {
+            NSString *errorString = error.localizedDescription;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
     }];
 }
 

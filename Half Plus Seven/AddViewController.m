@@ -1,15 +1,13 @@
 
 #import "AddViewController.h"
 #import "AnswerViewController.h"
+@import Firebase;
 
 @interface AddViewController ()
 
 @end
 
-@implementation AddViewController {
-    PFObject *themself;
-}
-
+@implementation AddViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,7 +22,7 @@
 }
 
 - (void)update {
-    PFUser *user = [PFUser currentUser];
+    FIRUser *user = [FIRAuth auth].currentUser;
     if ([self.theirName.text isEqual: @""]) {
 	[self.themself name:@"👤"];
     } else {
@@ -32,11 +30,14 @@
     }
     [self.themself date:[self getDate:self.theirDOB]];
     [self.themself getAgeForDate:self.themself.DOB];
-    themself = [PFObject objectWithClassName:@"Person"];
-    themself[@"name"] = self.themself.name.capitalizedString;
-    themself[@"DOB"] = self.themself.DOB;
-    themself[@"user"] = user;
-    [themself saveInBackground];
+    
+    FIRFirestore *db = [FIRFirestore firestore];
+    [[db collectionWithPath:@"Person"] addDocumentWithData:@{
+        @"name": self.themself.name.capitalizedString,
+        @"DOB": self.themself.DOB,
+        @"user": user.uid
+    }];
+    
     AnswerViewController *answer = [self.storyboard instantiateViewControllerWithIdentifier:@"Answer"];
     [answer setPassedPerson:self.theirName.text.capitalizedString];
     [answer setPassedDOB:self.theirDOB.date];

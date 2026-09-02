@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBQZCoE3E1fdyr64NZWVzR9B8oCg_1-CEg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>877628237323</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.Daniel.Half-Plus-Seven</string>
+	<key>PROJECT_ID</key>
+	<string>half-plus-seven</string>
+	<key>STORAGE_BUCKET</key>
+	<string>half-plus-seven.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:877628237323:ios:fa28e32748a0f19854890e</string>
+</dict>
+</plist>

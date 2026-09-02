@@ -2,6 +2,8 @@
 #import "ResultsViewController.h"
 #import "AnswerViewController.h"
 
+@import Firebase;
+
 @interface ResultsViewController ()
 
 @end
@@ -17,15 +19,19 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    PFQuery *yourselfQuery= [PFUser query];
-    [yourselfQuery whereKey:@"username" equalTo:[[PFUser currentUser]username]];
-    [yourselfQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-	self.yourself.name = [[object objectForKey:@"name"] capitalizedString];
-	self.yourself.DOB = [object objectForKey:@"DOB"];
-	self.themself.name = passedPerson;
-	self.themself.DOB = passedDOB;
-	[self update];
-    }];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
+    if (currentUser) {
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            if (snapshot.exists) {
+                self.yourself.name = [[snapshot.data objectForKey:@"name"] capitalizedString];
+                self.yourself.DOB = ((FIRTimestamp *)[snapshot.data objectForKey:@"DOB"]).dateValue;
+                self.themself.name = passedPerson;
+                self.themself.DOB = passedDOB;
+                [self update];
+            }
+        }];
+    }
 }
 
 - (void)update{

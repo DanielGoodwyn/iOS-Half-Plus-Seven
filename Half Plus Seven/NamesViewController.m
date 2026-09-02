@@ -4,6 +4,8 @@
 #import "LogInViewController.h"
 #import "UserViewController.h"
 
+@import Firebase;
+
 @interface NamesViewController ()
 
 @end
@@ -14,40 +16,49 @@
     [super viewDidLoad];
     self.people = [[NSMutableArray alloc] init];
     self.DOBs = [[NSMutableArray alloc] init];
+    self.documentIDs = [[NSMutableArray alloc] init]; // We'll need document IDs for deletion
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [self setProfileName];
     [self.people removeAllObjects];
     [self.DOBs removeAllObjects];
+    [self.documentIDs removeAllObjects];
 
-    PFUser *user = [PFUser currentUser];
+    FIRUser *user = [FIRAuth auth].currentUser;
     if (user) {
-	[self.activityIndicator startAnimating];
-	PFQuery *themselfArrayQuery = [PFQuery queryWithClassName:@"Person"];
-	[themselfArrayQuery orderByAscending:@"name"];
-	[themselfArrayQuery whereKey:@"user" equalTo:user];
-	[themselfArrayQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-	    if (!error) {
-		for (PFObject *object in objects) {
-		    [self.people addObject:[object objectForKey:@"name"]];
-		    [self.DOBs addObject:[object objectForKey:@"DOB"]];
-		}
-	    } else {
-	    }
-	    if (self.people.count == 0) {
-		[self.add setAlpha:1];
-	    } else {
-		[self.add setAlpha:0];
-	    }
-	    [self.activityIndicator stopAnimating];
-	    [self.peopleTableView reloadData];
-	}];
+        [self.activityIndicator startAnimating];
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[[db collectionWithPath:@"Person"] queryWhereField:@"user" isEqualTo:user.uid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            if (!error) {
+                // Sorting manually or using queryOrder (requires index sometimes if complex, but single field is fine)
+                NSArray *sortedDocs = [snapshot.documents sortedArrayUsingComparator:^NSComparisonResult(FIRDocumentSnapshot *doc1, FIRDocumentSnapshot *doc2) {
+                    NSString *name1 = [doc1.data objectForKey:@"name"];
+                    NSString *name2 = [doc2.data objectForKey:@"name"];
+                    return [name1 caseInsensitiveCompare:name2];
+                }];
+                
+                for (FIRDocumentSnapshot *document in sortedDocs) {
+                    [self.people addObject:[document.data objectForKey:@"name"]];
+                    NSDate *dob = ((FIRTimestamp *)[document.data objectForKey:@"DOB"]).dateValue;
+                    [self.DOBs addObject:dob];
+                    [self.documentIDs addObject:document.documentID];
+                }
+            } else {
+            }
+            if (self.people.count == 0) {
+                [self.add setAlpha:1];
+            } else {
+                [self.add setAlpha:0];
+            }
+            [self.activityIndicator stopAnimating];
+            [self.peopleTableView reloadData];
+        }];
     }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    PFUser *currentUser = [PFUser currentUser];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (!currentUser) {
 	LogInViewController *logIn = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
 	[self.view.window makeKeyAndVisible];
@@ -88,17 +99,13 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-	PFQuery *themselfArrayQuery = [PFQuery queryWithClassName:@"Person"];
-	[themselfArrayQuery whereKey:@"name" equalTo:self.people[indexPath.row]];
-	[themselfArrayQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-	    if (!error) {
-		for (PFObject *object in objects) {
-		    [object deleteInBackground];
-		}
-	    } else {
-	    }
-	}];
+        FIRFirestore *db = [FIRFirestore firestore];
+        NSString *docID = self.documentIDs[indexPath.row];
+        [[[db collectionWithPath:@"Person"] documentWithPath:docID] deleteDocument];
+        
 	[self.people removeObjectAtIndex:indexPath.row];
+        [self.DOBs removeObjectAtIndex:indexPath.row];
+        [self.documentIDs removeObjectAtIndex:indexPath.row];
 	[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     }
@@ -106,13 +113,14 @@
 }
 
 - (void)setProfileName {
-    PFUser *currentUser = [PFUser currentUser];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
-	PFQuery *query= [PFUser query];
-	[query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
-	[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-	    self.profile.title = [[currentUser objectForKey:@"name"] capitalizedString];
-	}];
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            if (snapshot.exists) {
+                self.profile.title = [[snapshot.data objectForKey:@"name"] capitalizedString];
+            }
+        }];
     }
 }
 

@@ -1,7 +1,7 @@
-
 #import "UserViewController.h"
 #import "LogInViewController.h"
 #import "NamesViewController.h"
+@import Firebase;
 
 @interface UserViewController ()
 
@@ -14,16 +14,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    PFUser *currentUser = [PFUser currentUser];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
-	PFQuery *query= [PFUser query];
-	[query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
-	[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
-	    [self.name setText:[[object objectForKey:@"name"] capitalizedString]];
-	    [self.yourDOB setDate:[object objectForKey:@"DOB"]];
-	    [self.ageTextField setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.yourDOB date] timeIntervalSinceNow]*-1)/365.25)/24)/60)/60 ]];
-	}];
-    } else {
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            if (snapshot.exists) {
+                [self.name setText:[[snapshot.data objectForKey:@"name"] capitalizedString]];
+                if ([snapshot.data objectForKey:@"DOB"]) {
+                    NSDate *dob = ((FIRTimestamp *)[snapshot.data objectForKey:@"DOB"]).dateValue;
+                    [self.yourDOB setDate:dob];
+                    [self.ageTextField setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.yourDOB date] timeIntervalSinceNow]*-1)/365.25)/24)/60)/60 ]];
+                }
+            }
+        }];
     }
 }
 
@@ -32,7 +35,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    PFUser *currentUser = [PFUser currentUser];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (!currentUser) {
 	LogInViewController *profile = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
 	[self.view.window makeKeyAndVisible];
@@ -41,19 +44,19 @@
 }
 
 - (void)update {
-    PFUser *currentUser = [PFUser currentUser];
+    FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
-	if ([self.name.text isEqual: @""]) {
-	    [currentUser setObject:@"👤" forKey:@"name"];
-	} else {
-	    [currentUser setObject:[self.name.text lowercaseString] forKey:@"name"];
-	}
-	[currentUser setValue:[self getDate:self.yourDOB] forKey:@"DOB"];
-	[currentUser save];
+        NSString *nameVal = [self.name.text isEqual:@""] ? @"👤" : [self.name.text lowercaseString];
+        
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] setData:@{
+            @"name": nameVal,
+            @"DOB": [self getDate:self.yourDOB]
+        } merge:YES];
+        
 	NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
 	[self.view.window makeKeyAndVisible];
 	[self presentViewController:names animated:YES completion:nil];
-
     }
 }
 
@@ -85,7 +88,8 @@
 }
 
 - (IBAction)logOut:(id)sender {
-    [PFUser logOut];
+    NSError *error;
+    [[FIRAuth auth] signOut:&error];
     LogInViewController *profile = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
     [self.view.window makeKeyAndVisible];
     [self presentViewController:profile animated:YES completion:nil];

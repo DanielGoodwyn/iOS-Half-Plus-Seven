@@ -1,6 +1,5 @@
-
 #import "AppDelegate.h"
-#import <Parse/Parse.h>
+@import Firebase;
 
 @interface AppDelegate ()
 
@@ -9,9 +8,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Parse setApplicationId:@"xxUw77Hqfy0HzwspWZMUprW3k6EK64WevWUGzpEn"
-                  clientKey:@"aqFfAb8ImWFCV48l7Pj1DOsXoRogxQBNqVadXACN"];
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    [FIRApp configure];
     return YES;
 }
 
