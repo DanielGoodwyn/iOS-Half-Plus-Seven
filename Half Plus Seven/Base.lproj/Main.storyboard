@@ -31,13 +31,13 @@
                                         <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="d41-Pg-pE1">
                                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="qDd-Kx-jo1" kind="modal" identifier="ResultsToAnswer" modalTransitionStyle="crossDissolve" id="B42-yx-HKD"/>
+                                                <segue destination="qDd-Kx-jo1" kind="modal" modalPresentationStyle="fullScreen" identifier="ResultsToAnswer" modalTransitionStyle="crossDissolve" id="B42-yx-HKD"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="gCW-VT-Fu6">
                                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="Mgh-X9-JKv"/>
+                                                <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Mgh-X9-JKv"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -49,7 +49,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="AXj-DL-R1i"/>
+                                    <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="AXj-DL-R1i"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2uy-75-oiF">
@@ -144,7 +144,7 @@
                                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="gRa-mG-0c4">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="4YX-MC-ktw"/>
+                                                <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="4YX-MC-ktw"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Add" style="plain" id="5ID-bo-5cE">
@@ -212,7 +212,7 @@
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="VYV-SB-E3A">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="Int-IJ-iic"/>
+                                                <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Int-IJ-iic"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -224,7 +224,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="ACb-e2-XgB" kind="modal" identifier="AnswerToResults" modalTransitionStyle="crossDissolve" id="rtJ-TV-W6z"/>
+                                    <segue destination="ACb-e2-XgB" kind="modal" modalPresentationStyle="fullScreen" identifier="AnswerToResults" modalTransitionStyle="crossDissolve" id="rtJ-TV-W6z"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUo-UU-bOo">
@@ -305,13 +305,13 @@
                                         <barButtonItem key="leftBarButtonItem" title="👤" style="plain" id="S8G-gX-Sr4">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-						<segue destination="vXZ-lx-hvc" kind="modal" identifier="NamesToUser" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
+						<segue destination="vXZ-lx-hvc" kind="modal" modalPresentationStyle="fullScreen" identifier="NamesToUser" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
                                             <color key="tintColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="R5k-mz-DWD" kind="modal" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
+                                                <segue destination="R5k-mz-DWD" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -347,7 +347,7 @@
                                         <color key="backgroundColor" red="0.38823529410000002" green="0.56470588239999997" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
-					    <segue destination="qDd-Kx-jo1" kind="modal" identifier="NamesToAnswer" modalTransitionStyle="crossDissolve" id="zQK-l9-X2R"/>
+					    <segue destination="qDd-Kx-jo1" kind="modal" modalPresentationStyle="fullScreen" identifier="NamesToAnswer" modalTransitionStyle="crossDissolve" id="zQK-l9-X2R"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -532,7 +532,7 @@
                                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="JI8-Lk-a4y">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="jcB-o9-0hr" kind="modal" modalTransitionStyle="crossDissolve" id="Lz9-iO-sCH"/>
+                                                <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Lz9-iO-sCH"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Update" id="wms-Gp-DD2">

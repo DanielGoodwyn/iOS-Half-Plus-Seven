@@ -29,30 +29,51 @@
     if (user) {
         [self.activityIndicator startAnimating];
         FIRFirestore *db = [FIRFirestore firestore];
+        
+        // Query both 'user' (legacy iOS) and 'userId' (Web) fields and combine results
+        dispatch_group_t group = dispatch_group_create();
+        NSMutableArray *allDocs = [NSMutableArray array];
+        
+        dispatch_group_enter(group);
         [[[db collectionWithPath:@"persons"] queryWhereField:@"user" isEqualTo:user.uid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
-            if (!error) {
-                // Sorting manually or using queryOrder (requires index sometimes if complex, but single field is fine)
-                NSArray *sortedDocs = [snapshot.documents sortedArrayUsingComparator:^NSComparisonResult(FIRDocumentSnapshot *doc1, FIRDocumentSnapshot *doc2) {
-                    NSString *name1 = [doc1.data objectForKey:@"name"];
-                    NSString *name2 = [doc2.data objectForKey:@"name"];
-                    if (![name1 isKindOfClass:[NSString class]]) name1 = @"Unknown";
-                    if (![name2 isKindOfClass:[NSString class]]) name2 = @"Unknown";
-                    return [name1 caseInsensitiveCompare:name2];
-                }];
-                
-                for (FIRDocumentSnapshot *document in sortedDocs) {
-                    NSString *name = [document.data objectForKey:@"name"];
-                    if (![name isKindOfClass:[NSString class]]) name = @"Unknown";
-                    [self.people addObject:name];
-                    
-                    FIRTimestamp *dobTs = [document.data objectForKey:@"dob"];
-                    NSDate *dob = [dobTs isKindOfClass:[FIRTimestamp class]] ? dobTs.dateValue : [NSDate date];
-                    [self.DOBs addObject:dob];
-                    
-                    [self.documentIDs addObject:document.documentID];
-                }
-            } else {
+            if (snapshot) [allDocs addObjectsFromArray:snapshot.documents];
+            dispatch_group_leave(group);
+        }];
+        
+        dispatch_group_enter(group);
+        [[[db collectionWithPath:@"persons"] queryWhereField:@"userId" isEqualTo:user.uid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            if (snapshot) [allDocs addObjectsFromArray:snapshot.documents];
+            dispatch_group_leave(group);
+        }];
+        
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            // Deduplicate by document ID
+            NSMutableDictionary *uniqueDocs = [NSMutableDictionary dictionary];
+            for (FIRDocumentSnapshot *doc in allDocs) {
+                uniqueDocs[doc.documentID] = doc;
             }
+            NSArray *finalDocs = [uniqueDocs allValues];
+            
+            NSArray *sortedDocs = [finalDocs sortedArrayUsingComparator:^NSComparisonResult(FIRDocumentSnapshot *doc1, FIRDocumentSnapshot *doc2) {
+                NSString *name1 = [doc1.data objectForKey:@"name"];
+                NSString *name2 = [doc2.data objectForKey:@"name"];
+                if (![name1 isKindOfClass:[NSString class]]) name1 = @"Unknown";
+                if (![name2 isKindOfClass:[NSString class]]) name2 = @"Unknown";
+                return [name1 caseInsensitiveCompare:name2];
+            }];
+            
+            for (FIRDocumentSnapshot *document in sortedDocs) {
+                NSString *name = [document.data objectForKey:@"name"];
+                if (![name isKindOfClass:[NSString class]]) name = @"Unknown";
+                [self.people addObject:name];
+                
+                FIRTimestamp *dobTs = [document.data objectForKey:@"dob"];
+                NSDate *dob = [dobTs isKindOfClass:[FIRTimestamp class]] ? dobTs.dateValue : [NSDate date];
+                [self.DOBs addObject:dob];
+                
+                [self.documentIDs addObject:document.documentID];
+            }
+            
             if (self.people.count == 0) {
                 [self.add setAlpha:1];
             } else {
@@ -60,7 +81,7 @@
             }
             [self.activityIndicator stopAnimating];
             [self.peopleTableView reloadData];
-        }];
+        });
     }
 }
 
@@ -68,6 +89,7 @@
     FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (!currentUser) {
 	LogInViewController *logIn = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
+    logIn.modalPresentationStyle = UIModalPresentationFullScreen;
 	[self.view.window makeKeyAndVisible];
 	[self presentViewController:logIn animated:NO completion:nil];
     }

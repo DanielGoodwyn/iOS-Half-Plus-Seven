@@ -66,6 +66,7 @@
                 @"dob": [NSDate dateWithTimeIntervalSince1970:595857600]
             } completion:^(NSError * _Nullable error) {
                 UserViewController *user = [self.storyboard instantiateViewControllerWithIdentifier:@"User"];
+                user.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.view.window makeKeyAndVisible];
                 [self presentViewController:user animated:YES completion:nil];
             }];
@@ -84,12 +85,14 @@
                          completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
         if (authResult) {
             NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
+            names.modalPresentationStyle = UIModalPresentationFullScreen;
             [self.view.window makeKeyAndVisible];
             [self presentViewController:names animated:YES completion:nil];
         } else {
             NSString *errorString = error.localizedDescription;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:errorString preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }];
 }

@@ -35,10 +35,12 @@
     [[db collectionWithPath:@"persons"] addDocumentWithData:@{
         @"name": self.themself.name.capitalizedString,
         @"dob": self.themself.DOB,
-        @"user": user.uid
+        @"user": user.uid,
+        @"userId": user.uid
     }];
     
     AnswerViewController *answer = [self.storyboard instantiateViewControllerWithIdentifier:@"Answer"];
+    answer.modalPresentationStyle = UIModalPresentationFullScreen;
     [answer setPassedPerson:self.theirName.text.capitalizedString];
     [answer setPassedDOB:self.theirDOB.date];
     [self.view.window makeKeyAndVisible];

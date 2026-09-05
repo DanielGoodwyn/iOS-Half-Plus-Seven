@@ -38,6 +38,7 @@
     FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (!currentUser) {
 	LogInViewController *profile = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
+    profile.modalPresentationStyle = UIModalPresentationFullScreen;
 	[self.view.window makeKeyAndVisible];
 	[self presentViewController:profile animated:NO completion:nil];
     }
@@ -55,6 +56,7 @@
         } merge:YES];
         
 	NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
+    names.modalPresentationStyle = UIModalPresentationFullScreen;
 	[self.view.window makeKeyAndVisible];
 	[self presentViewController:names animated:YES completion:nil];
     }
@@ -91,6 +93,7 @@
     NSError *error;
     [[FIRAuth auth] signOut:&error];
     LogInViewController *profile = [self.storyboard instantiateViewControllerWithIdentifier:@"LogIn"];
+    profile.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.view.window makeKeyAndVisible];
     [self presentViewController:profile animated:YES completion:nil];
 }
