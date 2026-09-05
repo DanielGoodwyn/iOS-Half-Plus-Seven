@@ -12,6 +12,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.email becomeFirstResponder];
+    
+    // Fix legacy storyboard layout by using a UIStackView
+    UIView *container = self.email.superview;
+    if (container && container != self.view) {
+        // Remove old constraints on the container
+        [container removeConstraints:container.constraints];
+        container.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [container.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+        [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-50].active = YES;
+        [container.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
+        
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton]];
+        stack.axis = UILayoutConstraintAxisVertical;
+        stack.spacing = 20;
+        stack.translatesAutoresizingMaskIntoConstraints = NO;
+        [container addSubview:stack];
+        
+        [stack.topAnchor constraintEqualToAnchor:container.topAnchor].active = YES;
+        [stack.bottomAnchor constraintEqualToAnchor:container.bottomAnchor].active = YES;
+        [stack.leadingAnchor constraintEqualToAnchor:container.leadingAnchor].active = YES;
+        [stack.trailingAnchor constraintEqualToAnchor:container.trailingAnchor].active = YES;
+        
+        [self.email.heightAnchor constraintEqualToConstant:50].active = YES;
+        [self.password.heightAnchor constraintEqualToConstant:50].active = YES;
+        [self.signUpButton.heightAnchor constraintEqualToConstant:50].active = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
