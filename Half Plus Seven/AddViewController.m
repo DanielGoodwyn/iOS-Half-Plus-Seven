@@ -32,9 +32,9 @@
     [self.themself getAgeForDate:self.themself.DOB];
     
     FIRFirestore *db = [FIRFirestore firestore];
-    [[db collectionWithPath:@"Person"] addDocumentWithData:@{
+    [[db collectionWithPath:@"persons"] addDocumentWithData:@{
         @"name": self.themself.name.capitalizedString,
-        @"DOB": self.themself.DOB,
+        @"dob": self.themself.DOB,
         @"user": user.uid
     }];
     

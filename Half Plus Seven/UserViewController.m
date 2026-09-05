@@ -20,8 +20,8 @@
         [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
                 [self.name setText:[[snapshot.data objectForKey:@"name"] capitalizedString]];
-                if ([snapshot.data objectForKey:@"DOB"]) {
-                    NSDate *dob = ((FIRTimestamp *)[snapshot.data objectForKey:@"DOB"]).dateValue;
+                if ([snapshot.data objectForKey:@"dob"]) {
+                    NSDate *dob = ((FIRTimestamp *)[snapshot.data objectForKey:@"dob"]).dateValue;
                     [self.yourDOB setDate:dob];
                     [self.ageTextField setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.yourDOB date] timeIntervalSinceNow]*-1)/365.25)/24)/60)/60 ]];
                 }
@@ -51,7 +51,7 @@
         FIRFirestore *db = [FIRFirestore firestore];
         [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] setData:@{
             @"name": nameVal,
-            @"DOB": [self getDate:self.yourDOB]
+            @"dob": [self getDate:self.yourDOB]
         } merge:YES];
         
 	NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];

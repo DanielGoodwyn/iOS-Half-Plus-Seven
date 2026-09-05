@@ -35,7 +35,7 @@
             FIRFirestore *db = [FIRFirestore firestore];
             [[[db collectionWithPath:@"users"] documentWithPath:authResult.user.uid] setData:@{
                 @"email": emailText,
-                @"DOB": [NSDate dateWithTimeIntervalSince1970:595857600]
+                @"dob": [NSDate dateWithTimeIntervalSince1970:595857600]
             } completion:^(NSError * _Nullable error) {
                 UserViewController *user = [self.storyboard instantiateViewControllerWithIdentifier:@"User"];
                 [self.view.window makeKeyAndVisible];

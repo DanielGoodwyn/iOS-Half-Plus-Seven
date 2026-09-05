@@ -32,6 +32,7 @@
 		7ECB6E9A1A394CF00004F357 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECB6E901A394CF00004F357 /* Security.framework */; };
 		7ECB6E9C1A394CF00004F357 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECB6E921A394CF00004F357 /* SystemConfiguration.framework */; };
 		929139F2F11E3F416B751C24 /* Pods_Half_Plus_SevenTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C96EF747D828CD2A6451B51 /* Pods_Half_Plus_SevenTests.framework */; };
+		F657A9E9E3E58D61A2B369D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BA277767B1FDC4DF14D3F8D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		4145BCF335A8FF90AA983CEB /* Pods-Half Plus SevenTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Half Plus SevenTests.release.xcconfig"; path = "Target Support Files/Pods-Half Plus SevenTests/Pods-Half Plus SevenTests.release.xcconfig"; sourceTree = "<group>"; };
 		5A426980B32B186DADFBCE06 /* Pods_Half_Plus_Seven.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Half_Plus_Seven.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BA277767B1FDC4DF14D3F8D /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		72316C8B8407C17ADCDD29B7 /* Pods-Half Plus Seven.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Half Plus Seven.debug.xcconfig"; path = "Target Support Files/Pods-Half Plus Seven/Pods-Half Plus Seven.debug.xcconfig"; sourceTree = "<group>"; };
 		7E3293CD1A32539300D365B1 /* Half Plus Seven.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Half Plus Seven.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3293D11A32539300D365B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				7E3293D41A32539300D365B1 /* AppDelegate.h */,
 				7E3293D51A32539300D365B1 /* AppDelegate.m */,
 				7E3293D01A32539300D365B1 /* Supporting Files */,
+				5BA277767B1FDC4DF14D3F8D /* GoogleService-Info.plist */,
 			);
 			path = "Half Plus Seven";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				7E3293E11A32539300D365B1 /* LaunchScreen.xib in Resources */,
 				7E3293DE1A32539300D365B1 /* Images.xcassets in Resources */,
 				7E943ED01B71C55700980BD1 /* Default.png in Resources */,
+				F657A9E9E3E58D61A2B369D7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,7 +575,7 @@
 				DEVELOPMENT_TEAM = 3YH5RQ572Q;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Half Plus Seven/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -589,7 +593,7 @@
 				DEVELOPMENT_TEAM = 3YH5RQ572Q;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Half Plus Seven/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -613,6 +617,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Half Plus SevenTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Half Plus Seven.app/Half Plus Seven";
@@ -631,6 +636,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Half Plus SevenTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Half Plus Seven.app/Half Plus Seven";

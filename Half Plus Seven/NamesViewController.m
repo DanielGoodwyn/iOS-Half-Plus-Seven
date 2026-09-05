@@ -29,7 +29,7 @@
     if (user) {
         [self.activityIndicator startAnimating];
         FIRFirestore *db = [FIRFirestore firestore];
-        [[[db collectionWithPath:@"Person"] queryWhereField:@"user" isEqualTo:user.uid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        [[[db collectionWithPath:@"persons"] queryWhereField:@"user" isEqualTo:user.uid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (!error) {
                 // Sorting manually or using queryOrder (requires index sometimes if complex, but single field is fine)
                 NSArray *sortedDocs = [snapshot.documents sortedArrayUsingComparator:^NSComparisonResult(FIRDocumentSnapshot *doc1, FIRDocumentSnapshot *doc2) {
@@ -40,7 +40,7 @@
                 
                 for (FIRDocumentSnapshot *document in sortedDocs) {
                     [self.people addObject:[document.data objectForKey:@"name"]];
-                    NSDate *dob = ((FIRTimestamp *)[document.data objectForKey:@"DOB"]).dateValue;
+                    NSDate *dob = ((FIRTimestamp *)[document.data objectForKey:@"dob"]).dateValue;
                     [self.DOBs addObject:dob];
                     [self.documentIDs addObject:document.documentID];
                 }
@@ -101,7 +101,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         FIRFirestore *db = [FIRFirestore firestore];
         NSString *docID = self.documentIDs[indexPath.row];
-        [[[db collectionWithPath:@"Person"] documentWithPath:docID] deleteDocument];
+        [[[db collectionWithPath:@"persons"] documentWithPath:docID] deleteDocument];
         
 	[self.people removeObjectAtIndex:indexPath.row];
         [self.DOBs removeObjectAtIndex:indexPath.row];
