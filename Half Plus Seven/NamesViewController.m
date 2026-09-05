@@ -35,13 +35,20 @@
                 NSArray *sortedDocs = [snapshot.documents sortedArrayUsingComparator:^NSComparisonResult(FIRDocumentSnapshot *doc1, FIRDocumentSnapshot *doc2) {
                     NSString *name1 = [doc1.data objectForKey:@"name"];
                     NSString *name2 = [doc2.data objectForKey:@"name"];
+                    if (![name1 isKindOfClass:[NSString class]]) name1 = @"Unknown";
+                    if (![name2 isKindOfClass:[NSString class]]) name2 = @"Unknown";
                     return [name1 caseInsensitiveCompare:name2];
                 }];
                 
                 for (FIRDocumentSnapshot *document in sortedDocs) {
-                    [self.people addObject:[document.data objectForKey:@"name"]];
-                    NSDate *dob = ((FIRTimestamp *)[document.data objectForKey:@"dob"]).dateValue;
+                    NSString *name = [document.data objectForKey:@"name"];
+                    if (![name isKindOfClass:[NSString class]]) name = @"Unknown";
+                    [self.people addObject:name];
+                    
+                    FIRTimestamp *dobTs = [document.data objectForKey:@"dob"];
+                    NSDate *dob = [dobTs isKindOfClass:[FIRTimestamp class]] ? dobTs.dateValue : [NSDate date];
                     [self.DOBs addObject:dob];
+                    
                     [self.documentIDs addObject:document.documentID];
                 }
             } else {
@@ -118,7 +125,12 @@
         FIRFirestore *db = [FIRFirestore firestore];
         [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
-                self.profile.title = [[snapshot.data objectForKey:@"name"] capitalizedString];
+                NSString *name = [snapshot.data objectForKey:@"name"];
+                if ([name isKindOfClass:[NSString class]]) {
+                    self.profile.title = [name capitalizedString];
+                } else {
+                    self.profile.title = @"👤";
+                }
             }
         }];
     }
