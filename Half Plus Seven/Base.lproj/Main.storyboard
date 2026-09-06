@@ -303,7 +303,7 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
                                             <connections>
-                                                <segue destination="R5k-mz-DWD" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
+                                                <segue destination="R5k-mz-DWD" kind="modal" modalPresentationStyle="fullScreen" identifier="NamesToAdd" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
