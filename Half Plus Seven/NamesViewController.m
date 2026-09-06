@@ -22,6 +22,7 @@
     [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 
+    // Foolproof Custom UIButtons to completely defeat iOS accessibility button shapes
     for (UIView *subview in self.view.subviews) {
         if ([subview isKindOfClass:[UINavigationBar class]]) {
             UINavigationBar *navBar = (UINavigationBar *)subview;
@@ -30,59 +31,27 @@
             navBar.translucent = YES;
             navBar.backgroundColor = [UIColor clearColor];
             navBar.barTintColor = [UIColor clearColor];
-            navBar.tintColor = [UIColor whiteColor];
-            for (UINavigationItem *item in navBar.items) {
-                if (item.leftBarButtonItem && !item.leftBarButtonItem.customView) {
-                    if (item.leftBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = item.leftBarButtonItem.title;
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:17];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.leftBarButtonItem.customView = lbl;
-                    } else if (item.leftBarButtonItem.image) {
-                        UIImageView *iv = [[UIImageView alloc] initWithImage:item.leftBarButtonItem.image];
-                        iv.tintColor = [UIColor whiteColor];
-                        iv.userInteractionEnabled = NO;
-                        item.leftBarButtonItem.customView = iv;
-                    }
-                }
-                if (item.rightBarButtonItem && !item.rightBarButtonItem.customView) {
-                    if (item.rightBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = item.rightBarButtonItem.title;
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:17];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.rightBarButtonItem.customView = lbl;
-                    } else if (item.rightBarButtonItem.image || !item.rightBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = @"+";
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:24 weight:UIFontWeightRegular];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.rightBarButtonItem.customView = lbl;
-                    }
-                }
-            }
-
-            if (@available(iOS 15.0, *)) {
-                UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-                [appearance configureWithTransparentBackground];
-                appearance.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-                UIBarButtonItemAppearance *buttonAppearance = [[UIBarButtonItemAppearance alloc] initWithStyle:UIBarButtonItemStylePlain];
-                buttonAppearance.normal.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.highlighted.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.focused.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.disabled.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.normal.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-                appearance.buttonAppearance = buttonAppearance;
-                navBar.standardAppearance = appearance;
-                navBar.scrollEdgeAppearance = appearance;
-                navBar.compactAppearance = appearance;
+            
+            UINavigationItem *topItem = navBar.topItem;
+            if (topItem) {
+                // Left Button (Profile)
+                UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
+                [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                profileBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+                [profileBtn addTarget:self action:@selector(profileBtnTapped) forControlEvents:UIControlEventTouchUpInside];
+                [profileBtn sizeToFit];
+                self.profile = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];
+                topItem.leftBarButtonItem = self.profile;
+                
+                // Right Button (Add)
+                UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [addBtn setTitle:@"+" forState:UIControlStateNormal];
+                [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                addBtn.titleLabel.font = [UIFont systemFontOfSize:30 weight:UIFontWeightLight];
+                [addBtn addTarget:self action:@selector(addBtnTapped) forControlEvents:UIControlEventTouchUpInside];
+                [addBtn sizeToFit];
+                topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
             }
         }
     }
@@ -238,14 +207,14 @@
                 NSString *name = [snapshot.data objectForKey:@"name"];
                 if ([name isKindOfClass:[NSString class]]) {
                     self.profile.title = [name capitalizedString];
-                    if ([self.profile.customView isKindOfClass:[UILabel class]]) {
-                        ((UILabel *)self.profile.customView).text = self.profile.title;
+                    if ([self.profile.customView isKindOfClass:[UIButton class]]) {
+                        [(UIButton *)self.profile.customView setTitle:self.profile.title forState:UIControlStateNormal];
                         [self.profile.customView sizeToFit];
                     }
                 } else {
                     self.profile.title = @"👤";
-                    if ([self.profile.customView isKindOfClass:[UILabel class]]) {
-                        ((UILabel *)self.profile.customView).text = self.profile.title;
+                    if ([self.profile.customView isKindOfClass:[UIButton class]]) {
+                        [(UIButton *)self.profile.customView setTitle:self.profile.title forState:UIControlStateNormal];
                         [self.profile.customView sizeToFit];
                     }
                 }
@@ -265,6 +234,14 @@
 	NSIndexPath *indexPath = [self.peopleTableView indexPathForSelectedRow];
 	[user setPassedPerson:[self.people objectAtIndex: indexPath.row]];
     }
+}
+
+- (void)profileBtnTapped {
+    [self performSegueWithIdentifier:@"NamesToUser" sender:nil];
+}
+
+- (void)addBtnTapped {
+    [self performSegueWithIdentifier:@"NamesToAdd" sender:nil];
 }
 
 @end
