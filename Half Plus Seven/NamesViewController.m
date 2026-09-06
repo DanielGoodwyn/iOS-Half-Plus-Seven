@@ -43,10 +43,11 @@
             // Remove the storyboard bar button items so iOS can't draw shapes on them
             navBar.topItem.leftBarButtonItem = nil;
             navBar.topItem.rightBarButtonItem = nil;
+            navBar.topItem.title = @""; // Hide built-in title; we render our own
         }
     }
 
-    // Add plain UIButtons directly to self.view (NOT as bar button items).
+    // Add plain UIButtons and title label directly to self.view.
     // Tag them so we only add once.
     if (![self.view viewWithTag:9001]) {
         // Profile button (top-left)
@@ -55,11 +56,21 @@
         [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
         [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         profileBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        profileBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 12, 8, 12);
+        profileBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        profileBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 12, 8, 4);
         [profileBtn addTarget:self action:@selector(profileBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-        [profileBtn sizeToFit];
         profileBtn.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:profileBtn];
+
+        // Title label (centered)
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.tag = 9003;
+        titleLabel.text = @"½ + 7";
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize:17];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:titleLabel];
 
         // Add button (top-right)
         UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -69,19 +80,33 @@
         addBtn.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightLight];
         addBtn.contentEdgeInsets = UIEdgeInsetsMake(4, 12, 4, 12);
         [addBtn addTarget:self action:@selector(addBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-        [addBtn sizeToFit];
         addBtn.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:addBtn];
 
-        // Position buttons using Auto Layout, anchored to the safe area top
+        // Layout: profile | title (centered) | add
+        // Profile truncates if name is long; title always stays centered.
         if (@available(iOS 11.0, *)) {
             [profileBtn.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:4].active = YES;
-            [profileBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:0].active = YES;
+            [profileBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
             [profileBtn.heightAnchor constraintEqualToConstant:44].active = YES;
 
+            [titleLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+            [titleLabel.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+            [titleLabel.heightAnchor constraintEqualToConstant:44].active = YES;
+
             [addBtn.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-4].active = YES;
-            [addBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:0].active = YES;
+            [addBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
             [addBtn.heightAnchor constraintEqualToConstant:44].active = YES;
+
+            // Profile can't overlap the title
+            [profileBtn.trailingAnchor constraintLessThanOrEqualToAnchor:titleLabel.leadingAnchor constant:-4].active = YES;
+            // Add can't overlap the title
+            [addBtn.leadingAnchor constraintGreaterThanOrEqualToAnchor:titleLabel.trailingAnchor constant:4].active = YES;
+
+            // Profile button shrinks first (lower compression resistance)
+            [profileBtn setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+            [titleLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [addBtn setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         }
     }
 
