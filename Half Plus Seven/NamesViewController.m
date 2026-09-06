@@ -10,6 +10,8 @@
 
 @property NSArray<FIRDocumentSnapshot *> *legacyDocs;
 @property NSArray<FIRDocumentSnapshot *> *webDocs;
+@property id<FIRListenerRegistration> legacyListener;
+@property id<FIRListenerRegistration> webListener;
 @end
 
 @implementation NamesViewController
