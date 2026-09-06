@@ -19,10 +19,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.388 green:0.565 blue:0.898 alpha:1.0];
-    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    self.people = [[NSMutableArray alloc] init];
+    self.DOBs = [[NSMutableArray alloc] init];
+    self.documentIDs = [[NSMutableArray alloc] init];
+    self.legacyDocs = @[];
+    self.webDocs = @[];
+}
 
-    // Foolproof Custom UIButtons to completely defeat iOS accessibility button shapes
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    // Replace nav bar buttons here (NOT in viewDidLoad) so we override storyboard items
     for (UIView *subview in self.view.subviews) {
         if ([subview isKindOfClass:[UINavigationBar class]]) {
             UINavigationBar *navBar = (UINavigationBar *)subview;
@@ -34,7 +41,7 @@
             
             UINavigationItem *topItem = navBar.topItem;
             if (topItem) {
-                // Left Button (Profile)
+                // Left Button (Profile) - flat, no background
                 UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
                 [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -44,7 +51,7 @@
                 self.profile = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];
                 topItem.leftBarButtonItem = self.profile;
                 
-                // Right Button (Add)
+                // Right Button (Add) - flat, no background
                 UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [addBtn setTitle:@"+" forState:UIControlStateNormal];
                 [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -56,15 +63,6 @@
         }
     }
 
-    self.people = [[NSMutableArray alloc] init];
-    self.DOBs = [[NSMutableArray alloc] init];
-    self.documentIDs = [[NSMutableArray alloc] init]; // We'll need document IDs for deletion
-    self.legacyDocs = @[];
-    self.webDocs = @[];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     [self setProfileName];
 
     FIRUser *user = [FIRAuth auth].currentUser;
