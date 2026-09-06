@@ -19,6 +19,9 @@
     [self.theirName becomeFirstResponder];
     [self.theirAge setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.theirDOB date] timeIntervalSinceNow]*-1)/365.25)/24)/60)/60 ]];
 
+    if (@available(iOS 14.0, *)) {
+        self.theirDOB.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
 }
 
 - (void)update {

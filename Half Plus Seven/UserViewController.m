@@ -28,6 +28,10 @@
             }
         }];
     }
+    
+    if (@available(iOS 14.0, *)) {
+        self.yourDOB.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
