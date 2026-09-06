@@ -301,7 +301,7 @@
 						<segue destination="vXZ-lx-hvc" kind="modal" modalPresentationStyle="fullScreen" identifier="NamesToUser" modalTransitionStyle="crossDissolve" id="u6I-Mf-4Cj"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="wwv-zQ-SD4">
+                                        <barButtonItem key="rightBarButtonItem" title="+" style="plain" id="wwv-zQ-SD4">
                                             <connections>
                                                 <segue destination="R5k-mz-DWD" kind="modal" modalPresentationStyle="fullScreen" identifier="NamesToAdd" modalTransitionStyle="crossDissolve" id="jWg-SQ-zlc"/>
                                             </connections>

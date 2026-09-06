@@ -29,7 +29,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    // Replace nav bar buttons here (NOT in viewDidLoad) so we override storyboard items
+    // Style the nav bar: transparent background, blending with view
     for (UIView *subview in self.view.subviews) {
         if ([subview isKindOfClass:[UINavigationBar class]]) {
             UINavigationBar *navBar = (UINavigationBar *)subview;
@@ -38,27 +38,37 @@
             navBar.translucent = YES;
             navBar.backgroundColor = [UIColor clearColor];
             navBar.barTintColor = [UIColor clearColor];
-            
-            UINavigationItem *topItem = navBar.topItem;
-            if (topItem) {
-                // Left Button (Profile) - flat, no background
-                UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
-                [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                profileBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-                [profileBtn addTarget:self action:@selector(profileBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-                [profileBtn sizeToFit];
-                self.profile = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];
-                topItem.leftBarButtonItem = self.profile;
-                
-                // Right Button (Add) - flat, no background
+            navBar.tintColor = [UIColor whiteColor];
+        }
+    }
+
+    // Flat design: set customView on the EXISTING storyboard bar button items.
+    // This prevents iOS from drawing button shapes / pills behind them.
+    // self.profile is a weak IBOutlet to the left bar button item in the storyboard.
+    if (self.profile && !self.profile.customView) {
+        UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        NSString *title = self.profile.title ?: @"👤";
+        [profileBtn setTitle:title forState:UIControlStateNormal];
+        [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        profileBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+        [profileBtn addTarget:self action:@selector(profileBtnTapped) forControlEvents:UIControlEventTouchUpInside];
+        [profileBtn sizeToFit];
+        self.profile.customView = profileBtn;
+    }
+
+    // Find the right bar button item from the nav bar and set its customView too
+    for (UIView *subview in self.view.subviews) {
+        if ([subview isKindOfClass:[UINavigationBar class]]) {
+            UINavigationBar *navBar = (UINavigationBar *)subview;
+            UIBarButtonItem *rightItem = navBar.topItem.rightBarButtonItem;
+            if (rightItem && !rightItem.customView) {
                 UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [addBtn setTitle:@"+" forState:UIControlStateNormal];
                 [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 addBtn.titleLabel.font = [UIFont systemFontOfSize:30 weight:UIFontWeightLight];
                 [addBtn addTarget:self action:@selector(addBtnTapped) forControlEvents:UIControlEventTouchUpInside];
                 [addBtn sizeToFit];
-                topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+                rightItem.customView = addBtn;
             }
         }
     }
