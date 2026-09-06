@@ -29,7 +29,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    // Style the nav bar: transparent background, blending with view
+    // Find the nav bar, make it transparent, and REMOVE its bar button items entirely.
+    // iOS draws button shapes on UIBarButtonItem no matter what — the only fix is to not use them.
     for (UIView *subview in self.view.subviews) {
         if ([subview isKindOfClass:[UINavigationBar class]]) {
             UINavigationBar *navBar = (UINavigationBar *)subview;
@@ -39,37 +40,48 @@
             navBar.backgroundColor = [UIColor clearColor];
             navBar.barTintColor = [UIColor clearColor];
             navBar.tintColor = [UIColor whiteColor];
+            // Remove the storyboard bar button items so iOS can't draw shapes on them
+            navBar.topItem.leftBarButtonItem = nil;
+            navBar.topItem.rightBarButtonItem = nil;
         }
     }
 
-    // Flat design: set customView on the EXISTING storyboard bar button items.
-    // This prevents iOS from drawing button shapes / pills behind them.
-    // self.profile is a weak IBOutlet to the left bar button item in the storyboard.
-    if (self.profile && !self.profile.customView) {
+    // Add plain UIButtons directly to self.view (NOT as bar button items).
+    // Tag them so we only add once.
+    if (![self.view viewWithTag:9001]) {
+        // Profile button (top-left)
         UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        NSString *title = self.profile.title ?: @"👤";
-        [profileBtn setTitle:title forState:UIControlStateNormal];
+        profileBtn.tag = 9001;
+        [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
         [profileBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        profileBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+        profileBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        profileBtn.contentEdgeInsets = UIEdgeInsetsMake(8, 12, 8, 12);
         [profileBtn addTarget:self action:@selector(profileBtnTapped) forControlEvents:UIControlEventTouchUpInside];
         [profileBtn sizeToFit];
-        self.profile.customView = profileBtn;
-    }
+        profileBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:profileBtn];
 
-    // Find the right bar button item from the nav bar and set its customView too
-    for (UIView *subview in self.view.subviews) {
-        if ([subview isKindOfClass:[UINavigationBar class]]) {
-            UINavigationBar *navBar = (UINavigationBar *)subview;
-            UIBarButtonItem *rightItem = navBar.topItem.rightBarButtonItem;
-            if (rightItem && !rightItem.customView) {
-                UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                [addBtn setTitle:@"+" forState:UIControlStateNormal];
-                [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                addBtn.titleLabel.font = [UIFont systemFontOfSize:30 weight:UIFontWeightLight];
-                [addBtn addTarget:self action:@selector(addBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-                [addBtn sizeToFit];
-                rightItem.customView = addBtn;
-            }
+        // Add button (top-right)
+        UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        addBtn.tag = 9002;
+        [addBtn setTitle:@"+" forState:UIControlStateNormal];
+        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        addBtn.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightLight];
+        addBtn.contentEdgeInsets = UIEdgeInsetsMake(4, 12, 4, 12);
+        [addBtn addTarget:self action:@selector(addBtnTapped) forControlEvents:UIControlEventTouchUpInside];
+        [addBtn sizeToFit];
+        addBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:addBtn];
+
+        // Position buttons using Auto Layout, anchored to the safe area top
+        if (@available(iOS 11.0, *)) {
+            [profileBtn.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:4].active = YES;
+            [profileBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:0].active = YES;
+            [profileBtn.heightAnchor constraintEqualToConstant:44].active = YES;
+
+            [addBtn.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-4].active = YES;
+            [addBtn.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:0].active = YES;
+            [addBtn.heightAnchor constraintEqualToConstant:44].active = YES;
         }
     }
 
@@ -213,19 +225,13 @@
         [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
                 NSString *name = [snapshot.data objectForKey:@"name"];
+                UIButton *profileBtn = (UIButton *)[self.view viewWithTag:9001];
                 if ([name isKindOfClass:[NSString class]]) {
-                    self.profile.title = [name capitalizedString];
-                    if ([self.profile.customView isKindOfClass:[UIButton class]]) {
-                        [(UIButton *)self.profile.customView setTitle:self.profile.title forState:UIControlStateNormal];
-                        [self.profile.customView sizeToFit];
-                    }
+                    [profileBtn setTitle:[name capitalizedString] forState:UIControlStateNormal];
                 } else {
-                    self.profile.title = @"👤";
-                    if ([self.profile.customView isKindOfClass:[UIButton class]]) {
-                        [(UIButton *)self.profile.customView setTitle:self.profile.title forState:UIControlStateNormal];
-                        [self.profile.customView sizeToFit];
-                    }
+                    [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
                 }
+                [profileBtn sizeToFit];
             }
         }];
     }
