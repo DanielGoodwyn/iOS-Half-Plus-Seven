@@ -27,7 +27,7 @@
 }
 
 - (void)getAge{
-    float age = (((([self.DOB timeIntervalSinceNow]*-1)/365.25)/24)/60)/60;
+    float age = (((([self.DOB timeIntervalSinceNow]*-1)/60)/60)/24)/365.25;
     self.age = age;
 }
 

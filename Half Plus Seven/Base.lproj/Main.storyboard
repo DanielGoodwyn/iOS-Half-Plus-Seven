@@ -33,7 +33,7 @@
                                                 <segue destination="qDd-Kx-jo1" kind="modal" modalPresentationStyle="fullScreen" identifier="ResultsToAnswer" modalTransitionStyle="crossDissolve" id="B42-yx-HKD"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="gCW-VT-Fu6">
+                                        <barButtonItem key="rightBarButtonItem" title="Done" style="plain" id="gCW-VT-Fu6">
                                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Mgh-X9-JKv"/>
@@ -139,7 +139,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="New Person" id="IXY-sG-X77">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="gRa-mG-0c4">
+                                        <barButtonItem key="leftBarButtonItem" title="✕" style="plain" id="gRa-mG-0c4">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="4YX-MC-ktw"/>
@@ -206,7 +206,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="½ + 7" id="I8S-zS-LUW">
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="VYV-SB-E3A">
+                                        <barButtonItem key="rightBarButtonItem" title="Done" style="plain" id="VYV-SB-E3A">
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Int-IJ-iic"/>
                                             </connections>
@@ -519,7 +519,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Edit Profile" id="4n6-fx-BW5">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="JI8-Lk-a4y">
+                                        <barButtonItem key="leftBarButtonItem" title="✕" style="plain" id="JI8-Lk-a4y">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <segue destination="jcB-o9-0hr" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Lz9-iO-sCH"/>

@@ -1,6 +1,8 @@
 
 #import "AddViewController.h"
 #import "AnswerViewController.h"
+#import "NamesViewController.h"
+#import "NamesViewController+NavBarHelper.h"
 @import Firebase;
 
 @interface AddViewController ()
@@ -12,85 +14,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.388 green:0.565 blue:0.898 alpha:1.0];
-    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-
-    for (UIView *subview in self.view.subviews) {
-        if ([subview isKindOfClass:[UINavigationBar class]]) {
-            UINavigationBar *navBar = (UINavigationBar *)subview;
-            [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-            navBar.shadowImage = [UIImage new];
-            navBar.translucent = YES;
-            navBar.backgroundColor = [UIColor clearColor];
-            navBar.barTintColor = [UIColor clearColor];
-            navBar.tintColor = [UIColor whiteColor];
-            for (UINavigationItem *item in navBar.items) {
-                if (item.leftBarButtonItem && !item.leftBarButtonItem.customView) {
-                    if (item.leftBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = item.leftBarButtonItem.title;
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:17];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.leftBarButtonItem.customView = lbl;
-                    } else if (item.leftBarButtonItem.image) {
-                        UIImageView *iv = [[UIImageView alloc] initWithImage:item.leftBarButtonItem.image];
-                        iv.tintColor = [UIColor whiteColor];
-                        iv.userInteractionEnabled = NO;
-                        item.leftBarButtonItem.customView = iv;
-                    }
-                }
-                if (item.rightBarButtonItem && !item.rightBarButtonItem.customView) {
-                    if (item.rightBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = item.rightBarButtonItem.title;
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:17];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.rightBarButtonItem.customView = lbl;
-                    } else if (item.rightBarButtonItem.image || !item.rightBarButtonItem.title) {
-                        UILabel *lbl = [[UILabel alloc] init];
-                        lbl.text = @"+";
-                        lbl.textColor = [UIColor whiteColor];
-                        lbl.font = [UIFont systemFontOfSize:24 weight:UIFontWeightRegular];
-                        [lbl sizeToFit];
-                        lbl.userInteractionEnabled = NO;
-                        item.rightBarButtonItem.customView = lbl;
-                    }
-                }
-            }
-
-            if (@available(iOS 15.0, *)) {
-                UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-                [appearance configureWithTransparentBackground];
-                appearance.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-                UIBarButtonItemAppearance *buttonAppearance = [[UIBarButtonItemAppearance alloc] initWithStyle:UIBarButtonItemStylePlain];
-                buttonAppearance.normal.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.highlighted.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.focused.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.disabled.backgroundImage = [[UIImage alloc] init];
-                buttonAppearance.normal.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-                appearance.buttonAppearance = buttonAppearance;
-                navBar.standardAppearance = appearance;
-                navBar.scrollEdgeAppearance = appearance;
-                navBar.compactAppearance = appearance;
-            }
-        }
-    }
-
 
     self.themself = [[Person alloc] init];
     [self.theirName setText:@""];
     [self.theirDOB setDate:[NSDate dateWithTimeIntervalSince1970:360936000]];
     [self.theirDOB addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     [self.theirName becomeFirstResponder];
-    [self.theirAge setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.theirDOB date] timeIntervalSinceNow]*-1)/365.25)/24)/60)/60 ]];
+    [self.theirAge setText:[NSString stringWithFormat:(@"%.02f"), (((([[self.theirDOB date] timeIntervalSinceNow]*-1)/60)/60)/24)/365.25 ]];
 
     if (@available(iOS 14.0, *)) {
         self.theirDOB.preferredDatePickerStyle = UIDatePickerStyleWheels;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    flattenNavBar(self.view);
+    addFlatTitle(self.view, @"New Person", 9003);
+    addFlatButton(self.view, @"✕", 9001, @selector(dismissTapped), self, YES, [UIFont systemFontOfSize:20]);
+    addFlatButton(self.view, @"Add", 9002, @selector(addTapped), self, NO, [UIFont systemFontOfSize:17]);
+}
+
+- (void)dismissTapped {
+    NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
+    names.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.view.window makeKeyAndVisible];
+    [self presentViewController:names animated:YES completion:nil];
+}
+
+- (void)addTapped {
+    [self update];
 }
 
 - (void)update {
