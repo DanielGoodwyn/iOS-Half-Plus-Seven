@@ -7,7 +7,7 @@
 @import Firebase;
 
 @interface ResultsViewController ()
-
+@property id<FIRListenerRegistration> userListener;
 @end
 
 @implementation ResultsViewController
@@ -25,6 +25,13 @@
     self.us.textColor = [UIColor whiteColor];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (self.userListener) {
+        [self.userListener remove];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     flattenNavBar(self.view);
@@ -35,7 +42,7 @@
     FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
         FIRFirestore *db = [FIRFirestore firestore];
-        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        self.userListener = [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] addSnapshotListener:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
                 self.yourself.name = [[snapshot.data objectForKey:@"name"] capitalizedString];
                 self.yourself.DOB = ((FIRTimestamp *)[snapshot.data objectForKey:@"dob"]).dateValue;

@@ -12,6 +12,7 @@
 @property NSArray<FIRDocumentSnapshot *> *webDocs;
 @property id<FIRListenerRegistration> legacyListener;
 @property id<FIRListenerRegistration> webListener;
+@property id<FIRListenerRegistration> userListener;
 @end
 
 @implementation NamesViewController
@@ -141,6 +142,9 @@
     if (self.webListener) {
         [self.webListener remove];
     }
+    if (self.userListener) {
+        [self.userListener remove];
+    }
 }
 
 - (void)mergeAndReloadData {
@@ -247,7 +251,7 @@
     FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
         FIRFirestore *db = [FIRFirestore firestore];
-        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        self.userListener = [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] addSnapshotListener:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
                 NSString *name = [snapshot.data objectForKey:@"name"];
                 UIButton *profileBtn = (UIButton *)[self.view viewWithTag:9001];

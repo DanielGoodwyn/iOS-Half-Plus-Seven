@@ -5,7 +5,7 @@
 @import Firebase;
 
 @interface UserViewController ()
-
+@property (nonatomic, strong) id<FIRListenerRegistration> userListener;
 @end
 
 @implementation UserViewController
@@ -16,11 +16,10 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.388 green:0.565 blue:0.898 alpha:1.0];
 
-
     FIRUser *currentUser = [FIRAuth auth].currentUser;
     if (currentUser) {
         FIRFirestore *db = [FIRFirestore firestore];
-        [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        self.userListener = [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] addSnapshotListener:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
                 [self.name setText:[[snapshot.data objectForKey:@"name"] capitalizedString]];
                 if ([snapshot.data objectForKey:@"dob"]) {
@@ -34,6 +33,13 @@
     
     if (@available(iOS 14.0, *)) {
         self.yourDOB.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (self.userListener) {
+        [self.userListener remove];
     }
 }
 
