@@ -21,7 +21,14 @@
         FIRFirestore *db = [FIRFirestore firestore];
         self.userListener = [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] addSnapshotListener:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
             if (snapshot.exists) {
-                [self.name setText:[[snapshot.data objectForKey:@"name"] capitalizedString]];
+                NSString *name = [snapshot.data objectForKey:@"name"];
+                NSString *displayName = @"";
+                if ([name isKindOfClass:[NSString class]] && [[name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+                    displayName = [name capitalizedString];
+                } else if (currentUser.email.length > 0) {
+                    displayName = currentUser.email;
+                }
+                [self.name setText:displayName];
                 if ([snapshot.data objectForKey:@"dob"]) {
                     NSDate *dob = ((FIRTimestamp *)[snapshot.data objectForKey:@"dob"]).dateValue;
                     [self.yourDOB setDate:dob];

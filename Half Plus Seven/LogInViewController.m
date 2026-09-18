@@ -80,6 +80,12 @@
         }
     }
 
+    if (@available(iOS 11.0, *)) {
+        self.email.textContentType = UITextContentTypeUsername;
+        self.password.textContentType = UITextContentTypePassword;
+    }
+    self.email.keyboardType = UIKeyboardTypeEmailAddress;
+
     [self.email becomeFirstResponder];
     
     // Fix legacy storyboard layout by using a UIStackView
@@ -93,7 +99,13 @@
         [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-50].active = YES;
         [container.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
         
-        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton]];
+        UIButton *forgotPasswordBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [forgotPasswordBtn setTitle:@"Forgot Password?" forState:UIControlStateNormal];
+        [forgotPasswordBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.8] forState:UIControlStateNormal];
+        forgotPasswordBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [forgotPasswordBtn addTarget:self action:@selector(forgotPasswordTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton, forgotPasswordBtn]];
         stack.axis = UILayoutConstraintAxisVertical;
         stack.spacing = 20;
         stack.translatesAutoresizingMaskIntoConstraints = NO;
@@ -108,6 +120,24 @@
         [self.password.heightAnchor constraintEqualToConstant:50].active = YES;
         [self.signUpButton.heightAnchor constraintEqualToConstant:50].active = YES;
     }
+}
+
+- (void)forgotPasswordTapped {
+    NSString *emailText = [self.email.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (emailText.length == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Email Required" message:@"Please enter your email address first, then tap Forgot Password." preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
+    [[FIRAuth auth] sendPasswordResetWithEmail:emailText completion:^(NSError * _Nullable error) {
+        NSString *title = error ? @"Error" : @"Password Reset";
+        NSString *msg = error ? error.localizedDescription : @"A password reset link has been sent to your email address.";
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

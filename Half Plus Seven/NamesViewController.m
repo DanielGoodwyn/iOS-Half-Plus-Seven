@@ -252,16 +252,21 @@
     if (currentUser) {
         FIRFirestore *db = [FIRFirestore firestore];
         self.userListener = [[[db collectionWithPath:@"users"] documentWithPath:currentUser.uid] addSnapshotListener:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+            NSString *displayName = @"👤";
             if (snapshot.exists) {
                 NSString *name = [snapshot.data objectForKey:@"name"];
-                UIButton *profileBtn = (UIButton *)[self.view viewWithTag:9001];
-                if ([name isKindOfClass:[NSString class]]) {
-                    [profileBtn setTitle:[name capitalizedString] forState:UIControlStateNormal];
-                } else {
-                    [profileBtn setTitle:@"👤" forState:UIControlStateNormal];
+                if ([name isKindOfClass:[NSString class]] && [[name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+                    displayName = [name capitalizedString];
+                } else if (currentUser.email.length > 0) {
+                    displayName = currentUser.email;
                 }
-                [profileBtn sizeToFit];
+            } else if (currentUser.email.length > 0) {
+                displayName = currentUser.email;
             }
+            
+            UIButton *profileBtn = (UIButton *)[self.view viewWithTag:9001];
+            [profileBtn setTitle:displayName forState:UIControlStateNormal];
+            [profileBtn sizeToFit];
         }];
     }
 }

@@ -32,6 +32,7 @@
 		7ECB6E9A1A394CF00004F357 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECB6E901A394CF00004F357 /* Security.framework */; };
 		7ECB6E9C1A394CF00004F357 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECB6E921A394CF00004F357 /* SystemConfiguration.framework */; };
 		929139F2F11E3F416B751C24 /* Pods_Half_Plus_SevenTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C96EF747D828CD2A6451B51 /* Pods_Half_Plus_SevenTests.framework */; };
+		EC089BA3859D97C52140CBF8 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D91DD73929506F70EFD3FC1F /* SceneDelegate.m */; };
 		F657A9E9E3E58D61A2B369D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BA277767B1FDC4DF14D3F8D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -86,7 +87,9 @@
 		7ECB6E901A394CF00004F357 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7ECB6E921A394CF00004F357 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9C96EF747D828CD2A6451B51 /* Pods_Half_Plus_SevenTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Half_Plus_SevenTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACB8914F86B99BDA61904BC4 /* SceneDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		BD38A62D3687188CFB9C3413 /* Pods-Half Plus SevenTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Half Plus SevenTests.debug.xcconfig"; path = "Target Support Files/Pods-Half Plus SevenTests/Pods-Half Plus SevenTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D91DD73929506F70EFD3FC1F /* SceneDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		F673E7814C16638AE0EFE487 /* Pods-Half Plus Seven.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Half Plus Seven.release.xcconfig"; path = "Target Support Files/Pods-Half Plus Seven/Pods-Half Plus Seven.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +165,8 @@
 				7E3293D51A32539300D365B1 /* AppDelegate.m */,
 				7E3293D01A32539300D365B1 /* Supporting Files */,
 				5BA277767B1FDC4DF14D3F8D /* GoogleService-Info.plist */,
+				ACB8914F86B99BDA61904BC4 /* SceneDelegate.h */,
+				D91DD73929506F70EFD3FC1F /* SceneDelegate.m */,
 			);
 			path = "Half Plus Seven";
 			sourceTree = "<group>";
@@ -446,6 +451,7 @@
 				7E3293D31A32539300D365B1 /* main.m in Sources */,
 				7ECB6E5C1A3921440004F357 /* AddViewController.m in Sources */,
 				7ECB6E5F1A3921DE0004F357 /* ResultsViewController.m in Sources */,
+				EC089BA3859D97C52140CBF8 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

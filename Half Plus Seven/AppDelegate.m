@@ -11,7 +11,6 @@
     [FIRApp configure];
     
     UIColor *appBlue = [UIColor colorWithRed:0.388 green:0.565 blue:0.898 alpha:1.0];
-    self.window.backgroundColor = appBlue;
     
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
@@ -39,10 +38,13 @@
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {}
-- (void)applicationDidEnterBackground:(UIApplication *)application {}
-- (void)applicationWillEnterForeground:(UIApplication *)application {}
-- (void)applicationDidBecomeActive:(UIApplication *)application {}
-- (void)applicationWillTerminate:(UIApplication *)application {}
+#pragma mark - UISceneSession lifecycle
+
+- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
+    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
+}
+
+- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
+}
 
 @end
