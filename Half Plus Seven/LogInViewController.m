@@ -137,39 +137,52 @@
 }
 
 - (void)googleSignInTapped {
-    [GIDSignIn.sharedInstance signInWithPresentingViewController:self completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
-        if (error) {
-            if (error.code != -5) { // GIDSignInErrorCodeCanceled = -5
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Google Sign-In Error"
-                                                                               message:error.localizedDescription
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-                [self presentViewController:alert animated:YES completion:nil];
-            }
-            return;
-        }
+    @try {
+        NSString *clientID = @"877628237323-ibdf49p38002jt5c1ecss0h44ev5h6ll.apps.googleusercontent.com";
+        GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:clientID];
+        GIDSignIn.sharedInstance.configuration = config;
 
-        GIDGoogleUser *googleUser = signInResult.user;
-        NSString *idToken = googleUser.idToken.tokenString;
-        NSString *accessToken = googleUser.accessToken.tokenString;
-        
-        FIRAuthCredential *credential = [FIRGoogleAuthProvider credentialWithIDToken:idToken
-                                                                         accessToken:accessToken];
-
-        [[FIRAuth auth] signInWithCredential:credential completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable authError) {
-            if (authError) {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Authentication Error"
-                                                                               message:authError.localizedDescription
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-                [self presentViewController:alert animated:YES completion:nil];
+        [GIDSignIn.sharedInstance signInWithPresentingViewController:self completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
+            if (error) {
+                if (error.code != -5) { // GIDSignInErrorCodeCanceled = -5
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Google Sign-In Error"
+                                                                                   message:error.localizedDescription
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
                 return;
             }
 
-            FIRUser *user = authResult.user;
-            [self handleUserPostAuth:user];
+            GIDGoogleUser *googleUser = signInResult.user;
+            NSString *idToken = googleUser.idToken.tokenString;
+            NSString *accessToken = googleUser.accessToken.tokenString;
+            
+            FIRAuthCredential *credential = [FIRGoogleAuthProvider credentialWithIDToken:idToken
+                                                                             accessToken:accessToken];
+
+            [[FIRAuth auth] signInWithCredential:credential completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable authError) {
+                if (authError) {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Authentication Error"
+                                                                                   message:authError.localizedDescription
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                    [self presentViewController:alert animated:YES completion:nil];
+                    return;
+                }
+
+                FIRUser *user = authResult.user;
+                [self handleUserPostAuth:user];
+            }];
         }];
-    }];
+    } @catch (NSException *exception) {
+        NSLog(@"Exception in googleSignInTapped: %@", exception);
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sign-In Error"
+                                                                       message:exception.reason
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void)handleUserPostAuth:(FIRUser *)user {

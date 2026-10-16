@@ -13,6 +13,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [FIRApp configure];
     
+    NSString *clientID = @"877628237323-ibdf49p38002jt5c1ecss0h44ev5h6ll.apps.googleusercontent.com";
+    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:clientID];
+    GIDSignIn.sharedInstance.configuration = config;
+    
     UIColor *appBlue = [UIColor colorWithRed:0.388 green:0.565 blue:0.898 alpha:1.0];
     
     if (@available(iOS 15.0, *)) {

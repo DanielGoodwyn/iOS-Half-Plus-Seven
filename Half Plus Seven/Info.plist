@@ -31,6 +31,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>GIDClientID</key>
+	<string>877628237323-ibdf49p38002jt5c1ecss0h44ev5h6ll.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchImages</key>
