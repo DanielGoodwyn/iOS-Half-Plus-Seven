@@ -4,6 +4,8 @@
 #import "NamesViewController+NavBarHelper.h"
 
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface AnswerViewController ()
 @property id<FIRListenerRegistration> userListener;

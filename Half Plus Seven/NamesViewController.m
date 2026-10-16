@@ -5,6 +5,8 @@
 #import "UserViewController.h"
 
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface NamesViewController ()
 

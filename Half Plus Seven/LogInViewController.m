@@ -1,7 +1,10 @@
 #import "LogInViewController.h"
 #import "NamesViewController.h"
 #import "UserViewController.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface LogInViewController ()
 
@@ -96,18 +99,28 @@
         container.translatesAutoresizingMaskIntoConstraints = NO;
         
         [container.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-        [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-50].active = YES;
+        [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-30].active = YES;
         [container.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
         
+        UIButton *googleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [googleBtn setTitle:@"  begin with Google" forState:UIControlStateNormal];
+        [googleBtn setTitleColor:[UIColor colorWithRed:0.235 green:0.251 blue:0.263 alpha:1.0] forState:UIControlStateNormal];
+        [googleBtn setImage:[UIImage imageNamed:@"google_icon"] forState:UIControlStateNormal];
+        googleBtn.backgroundColor = [UIColor whiteColor];
+        googleBtn.layer.cornerRadius = 10.0;
+        googleBtn.layer.masksToBounds = YES;
+        googleBtn.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+        [googleBtn addTarget:self action:@selector(googleSignInTapped) forControlEvents:UIControlEventTouchUpInside];
+
         UIButton *forgotPasswordBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [forgotPasswordBtn setTitle:@"Forgot Password?" forState:UIControlStateNormal];
         [forgotPasswordBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.8] forState:UIControlStateNormal];
         forgotPasswordBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [forgotPasswordBtn addTarget:self action:@selector(forgotPasswordTapped) forControlEvents:UIControlEventTouchUpInside];
         
-        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton, forgotPasswordBtn]];
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton, googleBtn, forgotPasswordBtn]];
         stack.axis = UILayoutConstraintAxisVertical;
-        stack.spacing = 20;
+        stack.spacing = 16;
         stack.translatesAutoresizingMaskIntoConstraints = NO;
         [container addSubview:stack];
         
@@ -119,7 +132,139 @@
         [self.email.heightAnchor constraintEqualToConstant:50].active = YES;
         [self.password.heightAnchor constraintEqualToConstant:50].active = YES;
         [self.signUpButton.heightAnchor constraintEqualToConstant:50].active = YES;
+        [googleBtn.heightAnchor constraintEqualToConstant:50].active = YES;
     }
+}
+
+- (void)googleSignInTapped {
+    [GIDSignIn.sharedInstance signInWithPresentingViewController:self completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
+        if (error) {
+            if (error.code != -5) { // GIDSignInErrorCodeCanceled = -5
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Google Sign-In Error"
+                                                                               message:error.localizedDescription
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            return;
+        }
+
+        GIDGoogleUser *googleUser = signInResult.user;
+        NSString *idToken = googleUser.idToken.tokenString;
+        NSString *accessToken = googleUser.accessToken.tokenString;
+        
+        FIRAuthCredential *credential = [FIRGoogleAuthProvider credentialWithIDToken:idToken
+                                                                         accessToken:accessToken];
+
+        [[FIRAuth auth] signInWithCredential:credential completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable authError) {
+            if (authError) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Authentication Error"
+                                                                               message:authError.localizedDescription
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+                return;
+            }
+
+            FIRUser *user = authResult.user;
+            [self handleUserPostAuth:user];
+        }];
+    }];
+}
+
+- (void)handleUserPostAuth:(FIRUser *)user {
+    if (!user) return;
+    
+    NSString *uid = user.uid;
+    NSString *email = user.email ? [user.email lowercaseString] : @"";
+    FIRFirestore *db = [FIRFirestore firestore];
+
+    [[[db collectionWithPath:@"users"] documentWithPath:uid] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        if (snapshot.exists) {
+            if (!snapshot.data[@"email"] && email.length > 0) {
+                [[[db collectionWithPath:@"users"] documentWithPath:uid] updateData:@{@"email": email}];
+            }
+            [self navigateToNames];
+        } else {
+            if (email.length > 0) {
+                [[[db collectionWithPath:@"users"] queryWhereField:@"email" isEqualTo:email] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable querySnapshot, NSError * _Nullable error) {
+                    if (querySnapshot.documents.count > 0) {
+                        FIRDocumentSnapshot *existingDoc = querySnapshot.documents.firstObject;
+                        [self migrateAndCreateUserWithExistingDoc:existingDoc newUid:uid email:email displayName:user.displayName];
+                    } else {
+                        [[[db collectionWithPath:@"users"] queryWhereField:@"name" isEqualTo:email] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable nameSnapshot, NSError * _Nullable error) {
+                            if (nameSnapshot.documents.count > 0) {
+                                FIRDocumentSnapshot *existingDoc = nameSnapshot.documents.firstObject;
+                                [self migrateAndCreateUserWithExistingDoc:existingDoc newUid:uid email:email displayName:user.displayName];
+                            } else {
+                                [self createNewUserWithUid:uid email:email displayName:user.displayName];
+                            }
+                        }];
+                    }
+                }];
+            } else {
+                [self createNewUserWithUid:uid email:email displayName:user.displayName];
+            }
+        }
+    }];
+}
+
+- (void)migrateAndCreateUserWithExistingDoc:(FIRDocumentSnapshot *)existingDoc newUid:(NSString *)newUid email:(NSString *)email displayName:(NSString *)displayName {
+    FIRFirestore *db = [FIRFirestore firestore];
+    NSString *oldUid = existingDoc.documentID;
+    NSDictionary *data = existingDoc.data;
+    NSString *name = data[@"name"] ?: (displayName ?: email);
+    NSDate *dob = data[@"dob"] ?: [NSDate dateWithTimeIntervalSince1970:595857600];
+
+    NSMutableDictionary *userData = [NSMutableDictionary dictionary];
+    userData[@"name"] = name;
+    userData[@"email"] = email;
+    userData[@"dob"] = dob;
+
+    [[[db collectionWithPath:@"users"] documentWithPath:newUid] setData:userData merge:YES completion:^(NSError * _Nullable error) {
+        [self migratePersonsFromOldUid:oldUid toNewUid:newUid];
+        [self navigateToNames];
+    }];
+}
+
+- (void)migratePersonsFromOldUid:(NSString *)oldUid toNewUid:(NSString *)newUid {
+    if (!oldUid || !newUid || [oldUid isEqualToString:newUid]) return;
+    FIRFirestore *db = [FIRFirestore firestore];
+    
+    [[[db collectionWithPath:@"persons"] queryWhereField:@"userId" isEqualTo:oldUid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        for (FIRDocumentSnapshot *doc in snapshot.documents) {
+            [doc.reference updateData:@{@"userId": newUid, @"user": newUid}];
+        }
+    }];
+    [[[db collectionWithPath:@"persons"] queryWhereField:@"user" isEqualTo:oldUid] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        for (FIRDocumentSnapshot *doc in snapshot.documents) {
+            [doc.reference updateData:@{@"userId": newUid, @"user": newUid}];
+        }
+    }];
+}
+
+- (void)createNewUserWithUid:(NSString *)uid email:(NSString *)email displayName:(NSString *)displayName {
+    FIRFirestore *db = [FIRFirestore firestore];
+    NSDate *defaultDob = [NSDate dateWithTimeIntervalSince1970:595857600];
+    NSString *name = displayName.length > 0 ? displayName : email;
+    
+    [[[db collectionWithPath:@"users"] documentWithPath:uid] setData:@{
+        @"name": name,
+        @"email": email,
+        @"dob": defaultDob
+    } completion:^(NSError * _Nullable error) {
+        UserViewController *userVC = [self.storyboard instantiateViewControllerWithIdentifier:@"User"];
+        userVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self.view.window makeKeyAndVisible];
+        [self presentViewController:userVC animated:YES completion:nil];
+    }];
+}
+
+- (void)navigateToNames {
+    NamesViewController *names = [self.storyboard instantiateViewControllerWithIdentifier:@"Names"];
+    names.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.view.window makeKeyAndVisible];
+    [self presentViewController:names animated:YES completion:nil];
 }
 
 - (void)forgotPasswordTapped {

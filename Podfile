@@ -5,6 +5,7 @@ target 'Half Plus Seven' do
 
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'GoogleSignIn'
 
   target 'Half Plus SevenTests' do
     inherit! :search_paths

@@ -3,6 +3,8 @@
 #import "NamesViewController.h"
 #import "NamesViewController+NavBarHelper.h"
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface UserViewController ()
 @property (nonatomic, strong) id<FIRListenerRegistration> userListener;

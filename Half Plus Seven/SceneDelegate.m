@@ -1,4 +1,5 @@
 #import "SceneDelegate.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
 @interface SceneDelegate ()
 
@@ -21,6 +22,13 @@
         self.window.backgroundColor = appBlue;
         
         [self.window makeKeyAndVisible];
+    }
+}
+
+- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
+    UIOpenURLContext *urlContext = URLContexts.anyObject;
+    if (urlContext) {
+        [GIDSignIn.sharedInstance handleURL:urlContext.URL];
     }
 }
 

@@ -1,5 +1,8 @@
 #import "AppDelegate.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface AppDelegate ()
 
@@ -36,6 +39,10 @@
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return [GIDSignIn.sharedInstance handleURL:url];
 }
 
 #pragma mark - UISceneSession lifecycle

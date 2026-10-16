@@ -4,6 +4,8 @@
 #import "NamesViewController.h"
 #import "NamesViewController+NavBarHelper.h"
 @import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 
 @interface AddViewController ()
 
