@@ -58,9 +58,16 @@
             }
             self.yourself.name = displayName;
             if (snapshot.exists) {
-                self.yourself.DOB = ((FIRTimestamp *)[snapshot.data objectForKey:@"dob"]).dateValue;
-                self.themself.name = passedPerson;
-                self.themself.DOB = passedDOB;
+                id dobObj = [snapshot.data objectForKey:@"dob"];
+                if ([dobObj isKindOfClass:[FIRTimestamp class]]) {
+                    self.yourself.DOB = ((FIRTimestamp *)dobObj).dateValue;
+                } else if ([dobObj isKindOfClass:[NSDate class]]) {
+                    self.yourself.DOB = (NSDate *)dobObj;
+                } else if (!self.yourself.DOB) {
+                    self.yourself.DOB = [NSDate dateWithTimeIntervalSince1970:595857600];
+                }
+                self.themself.name = passedPerson ?: @"👤";
+                self.themself.DOB = passedDOB ?: [NSDate date];
                 [self update];
             }
         }];

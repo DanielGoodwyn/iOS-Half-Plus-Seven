@@ -55,9 +55,16 @@
                 }
                 
                 self.yourself.name = displayName;
-                self.yourself.DOB = ((FIRTimestamp *)[snapshot.data objectForKey:@"dob"]).dateValue;
-                [self.themself setName:passedPerson];
-                [self.themself setDOB:passedDOB];
+                id dobObj = [snapshot.data objectForKey:@"dob"];
+                if ([dobObj isKindOfClass:[FIRTimestamp class]]) {
+                    self.yourself.DOB = ((FIRTimestamp *)dobObj).dateValue;
+                } else if ([dobObj isKindOfClass:[NSDate class]]) {
+                    self.yourself.DOB = (NSDate *)dobObj;
+                } else if (!self.yourself.DOB) {
+                    self.yourself.DOB = [NSDate dateWithTimeIntervalSince1970:595857600];
+                }
+                [self.themself setName:passedPerson ?: @"👤"];
+                [self.themself setDOB:passedDOB ?: [NSDate date]];
                 [self.yourself getAge];
                 [self.themself getAge];
                 double yourLowerRange = (self.yourself.age/2)+7;

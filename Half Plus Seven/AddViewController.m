@@ -58,18 +58,20 @@
     [self.themself date:[self getDate:self.theirDOB]];
     [self.themself getAgeForDate:self.themself.DOB];
     
-    FIRFirestore *db = [FIRFirestore firestore];
-    [[db collectionWithPath:@"persons"] addDocumentWithData:@{
-        @"name": self.themself.name.capitalizedString,
-        @"dob": self.themself.DOB,
-        @"user": user.uid,
-        @"userId": user.uid
-    }];
+    if (user && user.uid) {
+        FIRFirestore *db = [FIRFirestore firestore];
+        [[db collectionWithPath:@"persons"] addDocumentWithData:@{
+            @"name": self.themself.name.capitalizedString ?: @"👤",
+            @"dob": self.themself.DOB ?: [NSDate date],
+            @"user": user.uid,
+            @"userId": user.uid
+        }];
+    }
     
     AnswerViewController *answer = [self.storyboard instantiateViewControllerWithIdentifier:@"Answer"];
     answer.modalPresentationStyle = UIModalPresentationFullScreen;
-    [answer setPassedPerson:self.theirName.text.capitalizedString];
-    [answer setPassedDOB:self.theirDOB.date];
+    [answer setPassedPerson:self.themself.name.capitalizedString ?: @"👤"];
+    [answer setPassedDOB:self.theirDOB.date ?: [NSDate date]];
     [self.view.window makeKeyAndVisible];
     [self presentViewController:answer animated:YES completion:nil];
 }

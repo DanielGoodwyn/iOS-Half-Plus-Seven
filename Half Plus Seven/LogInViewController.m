@@ -2,12 +2,14 @@
 #import "NamesViewController.h"
 #import "UserViewController.h"
 #import <GoogleSignIn/GoogleSignIn.h>
+#import <AuthenticationServices/AuthenticationServices.h>
+#import <CommonCrypto/CommonDigest.h>
 @import Firebase;
 @import FirebaseAuth;
 @import FirebaseFirestore;
 
-@interface LogInViewController ()
-
+@interface LogInViewController () <ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding>
+@property (nonatomic, copy) NSString *currentNonce;
 @end
 
 @implementation LogInViewController
@@ -89,8 +91,17 @@
     }
     self.email.keyboardType = UIKeyboardTypeEmailAddress;
 
-    [self.email becomeFirstResponder];
-    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
+    tap.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tap];
+
+    self.email.textColor = [UIColor whiteColor];
+    self.email.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"email"
+                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:1.0 alpha:0.7]}];
+    self.password.textColor = [UIColor whiteColor];
+    self.password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"password"
+                                                                          attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:1.0 alpha:0.7]}];
+
     // Fix legacy storyboard layout by using a UIStackView
     UIView *container = self.email.superview;
     if (container && container != self.view) {
@@ -99,9 +110,13 @@
         container.translatesAutoresizingMaskIntoConstraints = NO;
         
         [container.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-        [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-30].active = YES;
+        [container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor constant:-20].active = YES;
         [container.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
         
+        ASAuthorizationAppleIDButton *appleBtn = [ASAuthorizationAppleIDButton buttonWithType:ASAuthorizationAppleIDButtonTypeSignIn style:ASAuthorizationAppleIDButtonStyleWhite];
+        appleBtn.cornerRadius = 10.0;
+        [appleBtn addTarget:self action:@selector(appleSignInTapped) forControlEvents:UIControlEventTouchUpInside];
+
         UIButton *googleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [googleBtn setTitle:@"  begin with Google" forState:UIControlStateNormal];
         [googleBtn setTitleColor:[UIColor colorWithRed:0.235 green:0.251 blue:0.263 alpha:1.0] forState:UIControlStateNormal];
@@ -118,9 +133,9 @@
         forgotPasswordBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [forgotPasswordBtn addTarget:self action:@selector(forgotPasswordTapped) forControlEvents:UIControlEventTouchUpInside];
         
-        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton, googleBtn, forgotPasswordBtn]];
+        UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[self.email, self.password, self.signUpButton, appleBtn, googleBtn, forgotPasswordBtn]];
         stack.axis = UILayoutConstraintAxisVertical;
-        stack.spacing = 16;
+        stack.spacing = 14;
         stack.translatesAutoresizingMaskIntoConstraints = NO;
         [container addSubview:stack];
         
@@ -129,11 +144,86 @@
         [stack.leadingAnchor constraintEqualToAnchor:container.leadingAnchor].active = YES;
         [stack.trailingAnchor constraintEqualToAnchor:container.trailingAnchor].active = YES;
         
-        [self.email.heightAnchor constraintEqualToConstant:50].active = YES;
-        [self.password.heightAnchor constraintEqualToConstant:50].active = YES;
-        [self.signUpButton.heightAnchor constraintEqualToConstant:50].active = YES;
-        [googleBtn.heightAnchor constraintEqualToConstant:50].active = YES;
+        [self.email.heightAnchor constraintEqualToConstant:48].active = YES;
+        [self.password.heightAnchor constraintEqualToConstant:48].active = YES;
+        [self.signUpButton.heightAnchor constraintEqualToConstant:48].active = YES;
+        [appleBtn.heightAnchor constraintEqualToConstant:48].active = YES;
+        [googleBtn.heightAnchor constraintEqualToConstant:48].active = YES;
     }
+}
+
+- (NSString *)randomNonceStringWithLength:(NSInteger)length {
+    NSString *charset = @"0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._";
+    NSMutableString *result = [NSMutableString stringWithCapacity:length];
+    for (NSInteger i = 0; i < length; i++) {
+        uint32_t idx = arc4random_uniform((uint32_t)charset.length);
+        [result appendFormat:@"%C", [charset characterAtIndex:idx]];
+    }
+    return result;
+}
+
+- (NSString *)sha256:(NSString *)input {
+    const char *str = [input UTF8String];
+    unsigned char result[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(str, (CC_LONG)strlen(str), result);
+    NSMutableString *ret = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [ret appendFormat:@"%02x", result[i]];
+    }
+    return ret;
+}
+
+- (void)appleSignInTapped {
+    [self.view endEditing:YES];
+    NSString *nonce = [self randomNonceStringWithLength:32];
+    self.currentNonce = nonce;
+    ASAuthorizationAppleIDProvider *appleIDProvider = [[ASAuthorizationAppleIDProvider alloc] init];
+    ASAuthorizationAppleIDRequest *request = [appleIDProvider createRequest];
+    request.requestedScopes = @[ASAuthorizationScopeFullName, ASAuthorizationScopeEmail];
+    request.nonce = [self sha256:nonce];
+
+    ASAuthorizationController *authorizationController = [[ASAuthorizationController alloc] initWithAuthorizationRequests:@[request]];
+    authorizationController.delegate = self;
+    authorizationController.presentationContextProvider = self;
+    [authorizationController performRequests];
+}
+
+- (ASPresentationAnchor)presentationAnchorForAuthorizationController:(ASAuthorizationController *)controller {
+    return self.view.window;
+}
+
+- (void)authorizationController:(ASAuthorizationController *)controller didCompleteWithAuthorization:(ASAuthorization *)authorization {
+    if ([authorization.credential isKindOfClass:[ASAuthorizationAppleIDCredential class]]) {
+        ASAuthorizationAppleIDCredential *appleIDCredential = authorization.credential;
+        NSData *appleIDToken = appleIDCredential.identityToken;
+        if (!appleIDToken) return;
+        NSString *idTokenString = [[NSString alloc] initWithData:appleIDToken encoding:NSUTF8StringEncoding];
+        if (!idTokenString) return;
+
+        FIRAuthCredential *credential = [FIROAuthProvider appleCredentialWithIDToken:idTokenString
+                                                                            rawNonce:self.currentNonce
+                                                                            fullName:appleIDCredential.fullName];
+        [[FIRAuth auth] signInWithCredential:credential completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+            if (error) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Apple Sign-In Error"
+                                                                               message:error.localizedDescription
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+                return;
+            }
+            [self handleUserPostAuth:authResult.user];
+        }];
+    }
+}
+
+- (void)authorizationController:(ASAuthorizationController *)controller didCompleteWithError:(NSError *)error {
+    if (error.code == ASAuthorizationErrorCanceled) return;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Apple Sign-In Error"
+                                                                   message:error.localizedDescription
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)googleSignInTapped {

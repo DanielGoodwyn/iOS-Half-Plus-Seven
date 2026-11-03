@@ -214,7 +214,9 @@
     if (cell == nil){
 	cell = [[UITableViewCell alloc] initWithFrame:CGRectZero];
     }
-    cell.textLabel.text = [self.people objectAtIndex:indexPath.row];
+    if (indexPath.row < self.people.count) {
+        cell.textLabel.text = [self.people objectAtIndex:indexPath.row];
+    }
     if (indexPath.row % 2) {
 	UIColor * color = [UIColor colorWithRed:0.40 green:0.60 blue:0.90 alpha:1.0];
 	[cell.textLabel.superview setBackgroundColor: color];
@@ -236,14 +238,16 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        FIRFirestore *db = [FIRFirestore firestore];
-        NSString *docID = self.documentIDs[indexPath.row];
-        [[[db collectionWithPath:@"persons"] documentWithPath:docID] deleteDocument];
-        
-	[self.people removeObjectAtIndex:indexPath.row];
-        [self.DOBs removeObjectAtIndex:indexPath.row];
-        [self.documentIDs removeObjectAtIndex:indexPath.row];
-	[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (indexPath.row < self.documentIDs.count && indexPath.row < self.people.count && indexPath.row < self.DOBs.count) {
+            FIRFirestore *db = [FIRFirestore firestore];
+            NSString *docID = self.documentIDs[indexPath.row];
+            [[[db collectionWithPath:@"persons"] documentWithPath:docID] deleteDocument];
+            
+            [self.people removeObjectAtIndex:indexPath.row];
+            [self.DOBs removeObjectAtIndex:indexPath.row];
+            [self.documentIDs removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     }
     [self.peopleTableView reloadData];
@@ -274,15 +278,20 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    segue.destinationViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     if ([[segue identifier] isEqualToString:@"NamesToAnswer"]) {
 	AnswerViewController *answer = [segue destinationViewController];
 	NSIndexPath *indexPath = [self.peopleTableView indexPathForSelectedRow];
-	[answer setPassedPerson:[self.people objectAtIndex: indexPath.row]];
-	[answer setPassedDOB:[self.DOBs objectAtIndex: indexPath.row]];
+	if (indexPath && indexPath.row < self.people.count && indexPath.row < self.DOBs.count) {
+	    [answer setPassedPerson:[self.people objectAtIndex:indexPath.row]];
+	    [answer setPassedDOB:[self.DOBs objectAtIndex:indexPath.row]];
+	}
     } else if ([[segue identifier] isEqualToString:@"NamesToUser"]) {
 	UserViewController *user = [segue destinationViewController];
 	NSIndexPath *indexPath = [self.peopleTableView indexPathForSelectedRow];
-	[user setPassedPerson:[self.people objectAtIndex: indexPath.row]];
+	if (indexPath && indexPath.row < self.people.count) {
+	    [user setPassedPerson:[self.people objectAtIndex:indexPath.row]];
+	}
     }
 }
 
