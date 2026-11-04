@@ -33,7 +33,7 @@ Some eMudhra intermediate CA certificates were compromised. The Apple (iOS) Fire
 - [x] `Podfile.lock` shows FirebaseFirestore 12.19.3 (or higher)
 - [x] App builds cleanly
 - [x] Firestore reads and writes work on a real device
-- [ ] New build submitted and approved on the App Store (Build 7 `1.02 (7)` uploaded to App Store Connect)
+- [x] New build submitted on the App Store (Build 7 `1.02 (7)` attached and submitted — `Waiting for Review`, Submission ID `342eb6a1-c4fb-4afb-a8df-41e2a9ca81b5`)
 - [ ] Users prompted to update
 
 ## Links
