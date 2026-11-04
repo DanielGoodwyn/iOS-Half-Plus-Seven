@@ -17,6 +17,7 @@
 #error "This file requires ARC support."
 #endif
 
+#include <stdatomic.h>
 #include <unistd.h>
 
 #import "GTMSessionFetcher/GTMSessionFetcherLogging.h"
@@ -127,14 +128,14 @@ static NSString *gLoggingProcessName = nil;
       }
     }
     return gLoggingDirectoryPath;
-  }
+  }  // @synchronized
 }
 
 + (void)setLogDirectoryForCurrentRun:(NSString *)logDirectoryForCurrentRun {
   @synchronized([GTMSessionFetcher class]) {
     // Set the path for this run's logs.
     gLogDirectoryForCurrentRun = [logDirectoryForCurrentRun copy];
-  }
+  }  // @synchronized
 }
 
 + (NSString *)logDirectoryForCurrentRun {
@@ -171,37 +172,37 @@ static NSString *gLoggingProcessName = nil;
     gLogDirectoryForCurrentRun = logDirectory;
 
     return gLogDirectoryForCurrentRun;
-  }
+  }  // @synchronized
 }
 
 + (void)setLoggingEnabled:(BOOL)isLoggingEnabled {
   @synchronized([GTMSessionFetcher class]) {
     gIsLoggingEnabled = isLoggingEnabled;
-  }
+  }  // @synchronized
 }
 
 + (BOOL)isLoggingEnabled {
   @synchronized([GTMSessionFetcher class]) {
     return gIsLoggingEnabled;
-  }
+  }  // @synchronized
 }
 
 + (void)setLoggingToFileEnabled:(BOOL)isLoggingToFileEnabled {
   @synchronized([GTMSessionFetcher class]) {
     gIsLoggingToFile = isLoggingToFileEnabled;
-  }
+  }  // @synchronized
 }
 
 + (BOOL)isLoggingToFileEnabled {
   @synchronized([GTMSessionFetcher class]) {
     return gIsLoggingToFile;
-  }
+  }  // @synchronized
 }
 
 + (void)setLoggingProcessName:(NSString *)processName {
   @synchronized([GTMSessionFetcher class]) {
     gLoggingProcessName = [processName copy];
-  }
+  }  // @synchronized
 }
 
 + (NSString *)loggingProcessName {
@@ -212,13 +213,13 @@ static NSString *gLoggingProcessName = nil;
       gLoggingProcessName = [procName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     }
     return gLoggingProcessName;
-  }
+  }  // @synchronized
 }
 
 + (void)setLoggingDateStamp:(NSString *)dateStamp {
   @synchronized([GTMSessionFetcher class]) {
     gLoggingDateStamp = [dateStamp copy];
-  }
+  }  // @synchronized
 }
 
 + (NSString *)loggingDateStamp {
@@ -235,15 +236,19 @@ static NSString *gLoggingProcessName = nil;
       gLoggingDateStamp = [formatter stringFromDate:[NSDate date]];
     }
     return gLoggingDateStamp;
-  }
+  }  // @synchronized
 }
 
 + (NSString *)processNameLogPrefix {
+  // NOTE: this cache is odd. `+loggingProcessName` can be changed by the developer, so this
+  // but since they value is cached, this value "binds" the the first value. Changing it runs
+  // the risk of breaking existing behaviors.
   static NSString *gPrefix = nil;
-  if (!gPrefix) {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
     NSString *processName = [self loggingProcessName];
     gPrefix = [[NSString alloc] initWithFormat:@"%@_log_", processName];
-  }
+  });
   return gPrefix;
 }
 
@@ -385,7 +390,7 @@ static NSString *gLoggingProcessName = nil;
   //
   // we'll use a local variable since this routine may be reentered while waiting for formatting
   // to be completed.
-  static int gResponseCounter = 0;
+  static atomic_int gResponseCounter = 0;
   int responseCounter = ++gResponseCounter;
 
   NSURLResponse *response = [self response];
@@ -773,11 +778,10 @@ static NSString *gLoggingProcessName = nil;
     [fileMgr removeItemAtPath:symlinkPath error:NULL];
     [fileMgr createSymbolicLinkAtPath:symlinkPath withDestinationPath:htmlPath error:NULL];
 #if TARGET_OS_IPHONE
-    static BOOL gReportedLoggingPath = NO;
-    if (!gReportedLoggingPath) {
-      gReportedLoggingPath = YES;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
       NSLog(@"GTMSessionFetcher logging to \"%@\"", parentDir);
-    }
+    });
 #endif
   }
 }

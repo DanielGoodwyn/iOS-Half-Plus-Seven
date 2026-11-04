@@ -30,7 +30,6 @@ private let kURLResponseErrorCodeInternalError = "auth/internal-error"
 private let kFIRAuthErrorMessageMalformedJWT =
   "Failed to parse JWT. Check the userInfo dictionary for the full token."
 
-@available(iOS 13, tvOS 13, macOS 10.15, macCatalyst 13, watchOS 7, *)
 class AuthErrorUtils {
   static let internalErrorDomain = "FIRAuthInternalErrorDomain"
   static let userInfoDeserializedResponseKey = "FIRAuthErrorUserInfoDeserializedResponseKey"
@@ -366,10 +365,6 @@ class AuthErrorUtils {
     error(code: .invalidProviderID, message: message)
   }
 
-  static func invalidDynamicLinkDomainError(message: String?) -> Error {
-    error(code: .invalidDynamicLinkDomain, message: message)
-  }
-
   static func invalidHostingLinkDomainError(message: String?) -> Error {
     error(code: .invalidHostingLinkDomain, message: message)
   }
@@ -572,7 +567,7 @@ class AuthErrorUtils {
     return error(code: .blockingCloudFunctionError, message: errorMessage)
   }
 
-  #if os(iOS)
+  #if os(iOS) || os(macOS)
     static func secondFactorRequiredError(pendingCredential: String?,
                                           hints: [MultiFactorInfo],
                                           auth: Auth)
@@ -585,7 +580,7 @@ class AuthErrorUtils {
 
       return error(code: .secondFactorRequired, userInfo: userInfo)
     }
-  #endif // os(iOS)
+  #endif // os(iOS) || os(macOS)
 
   static func recaptchaSDKNotLinkedError() -> Error {
     // TODO(ObjC): point the link to GCIP doc once available.
@@ -606,5 +601,9 @@ class AuthErrorUtils {
     let message = "The reCAPTCHA SDK action class creation failed. See " +
       "https://cloud.google.com/recaptcha-enterprise/docs/instrument-ios-apps"
     return error(code: .recaptchaActionCreationFailed, message: message)
+  }
+
+  static func passwordDoesNotMeetRequirementsError(message: String?) -> Error {
+    return error(code: .passwordDoesNotMeetRequirements, message: message)
   }
 }

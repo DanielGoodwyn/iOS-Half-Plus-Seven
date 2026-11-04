@@ -3,8 +3,8 @@ platform :ios, '15.0'
 target 'Half Plus Seven' do
   use_frameworks!
 
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
+  pod 'Firebase/Auth', '~> 12.19.3'
+  pod 'Firebase/Firestore', '~> 12.19.3'
   pod 'GoogleSignIn'
 
   target 'Half Plus SevenTests' do

@@ -30,10 +30,10 @@ Some eMudhra intermediate CA certificates were compromised. The Apple (iOS) Fire
 9. Prompt users to update.
 
 ## Verification checklist
-- [ ] `Podfile.lock` shows FirebaseFirestore 12.19.3 (or higher)
-- [ ] App builds cleanly
-- [ ] Firestore reads and writes work on a real device
-- [ ] New build submitted and approved on the App Store
+- [x] `Podfile.lock` shows FirebaseFirestore 12.19.3 (or higher)
+- [x] App builds cleanly
+- [x] Firestore reads and writes work on a real device
+- [ ] New build submitted and approved on the App Store (Build 7 `1.02 (7)` uploaded to App Store Connect)
 - [ ] Users prompted to update
 
 ## Links

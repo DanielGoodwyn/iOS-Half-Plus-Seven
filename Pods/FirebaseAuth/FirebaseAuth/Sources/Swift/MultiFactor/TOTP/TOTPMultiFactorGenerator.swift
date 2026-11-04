@@ -14,14 +14,13 @@
 
 import Foundation
 
-#if os(iOS)
+#if os(iOS) || os(macOS)
 
   /// The data structure used to help initialize an assertion for a second factor entity to the
   /// Firebase Auth/CICP server. Depending on the type of second factor, this will help generate
   /// the assertion.
   ///
-  /// This class is available on iOS only.
-  @available(iOS 13, tvOS 13, macOS 10.15, macCatalyst 13, watchOS 7, *)
+  /// This class is available on iOS and macOS.
   @objc(FIRTOTPMultiFactorGenerator) open class TOTPMultiFactorGenerator: NSObject {
     /// Creates a TOTP secret as part of enrolling a TOTP second factor. Used for generating a
     /// QR code URL or inputting into a TOTP app. This method uses the auth instance corresponding
@@ -69,10 +68,9 @@ import Foundation
     /// Creates a TOTP secret as part of enrolling a TOTP second factor.
     ///
     /// Used for generating a QR code URL or inputting into a TOTP app. This
-    /// method uses the auth instance correspondingto the user in the multiFactorSession.
+    /// method uses the auth instance corresponding to the user in the multiFactorSession.
     /// - Parameter session: The multiFactorSession instance.
     /// - Returns: The TOTP secret.
-    @available(iOS 13, tvOS 13, macOS 10.15, macCatalyst 13, watchOS 7, *)
     open class func generateSecret(with session: MultiFactorSession) async throws -> TOTPSecret {
       return try await withCheckedThrowingContinuation { continuation in
         self.generateSecret(with: session) { secret, error in
